@@ -1,4 +1,9 @@
-<title>Matnature Sep 2026</title>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matnature · Dashboard</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -59,6 +64,48 @@ body {
   margin-inline: auto;
 }
 
+/* ── Tab bar ── */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 18px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0;
+}
+.tab-btn {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sec);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  padding: 8px 14px 10px;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text); background: var(--surface); }
+.tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+.tab-btn .tab-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 999px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.tab-badge.closed { background: var(--surface-2); color: var(--text-sec); }
+.tab-badge.live { background: var(--orange-dim); color: var(--orange); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Header ── */
 .header {
   display: flex;
   justify-content: space-between;
@@ -91,11 +138,10 @@ body {
 .hero-target-label { font-size: 13px; color: var(--text-sec); font-weight: 500; }
 .hero-target-label strong { color: var(--text); font-weight: 700; }
 .bar-wrap { background: var(--surface-2); border-radius: 999px; height: 12px; overflow: hidden; margin-bottom: 9px; position: relative; }
-.bar-fill { height: 100%; border-radius: 999px; background: var(--orange); width: 73.8%; }
+.bar-fill { height: 100%; border-radius: 999px; background: var(--orange); }
 .bar-objetivo-tick {
   position: absolute; top: 0; bottom: 0; width: 2px;
   background: rgba(192,57,43,0.5); border-radius: 1px;
-  left: 93.33%;
 }
 .bar-meta { display: flex; justify-content: space-between; align-items: center; }
 .bar-pct { font-size: 14px; font-weight: 700; color: var(--orange); }
@@ -213,7 +259,7 @@ tr:last-child td { border-bottom: none; }
 .ads-bar-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 4px; }
 .ads-bar-label { font-size: 11px; color: var(--text-sec); font-weight: 500; }
 .ads-split-wrap { display: flex; height: 18px; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
-.seg-ads { background: var(--orange); width: 54.9%; }
+.seg-ads { background: var(--orange); }
 .seg-organic { flex: 1; background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .ads-split-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
 .ads-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-sec); }
@@ -232,8 +278,26 @@ tr:last-child td { border-bottom: none; }
 .ads-pill-muted { color: var(--text-sec); font-weight: 400; }
 .ads-paused-note { font-size: 11px; color: var(--text-sec); font-style: italic; margin-top: 4px; padding-top: 8px; border-top: 1px solid var(--border); }
 
+/* ── Placeholder de mes futuro ── */
+.placeholder-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 40px 24px; text-align: center;
+  margin-bottom: 16px;
+}
+.placeholder-icon { font-size: 36px; margin-bottom: 12px; }
+.placeholder-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.placeholder-sub { font-size: 12px; color: var(--text-sec); line-height: 1.6; }
+
+.note-box {
+  background: var(--orange-dim); border: 1px solid rgba(255,153,0,0.25);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;
+  font-size: 11px; color: var(--text-sec); line-height: 1.6;
+}
+.note-box strong { color: var(--orange); }
+
 @media print {
-  .btn-pdf { display: none !important; }
+  .btn-pdf, .tab-bar { display: none !important; }
+  .tab-panel { display: block !important; }
   .ads-bar-card { page-break-inside: avoid; }
   body { padding: 12px 16px 20px; max-width: 100%; }
   .chart-card { page-break-inside: avoid; }
@@ -247,13 +311,6 @@ tr:last-child td { border-bottom: none; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 
-.note-box {
-  background: var(--orange-dim); border: 1px solid rgba(255,153,0,0.25);
-  border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;
-  font-size: 11px; color: var(--text-sec); line-height: 1.6;
-}
-.note-box strong { color: var(--orange); }
-
 @media (max-width: 480px) {
   .hero-amount { font-size: 28px; }
   .channels { grid-template-columns: 1fr; }
@@ -261,13 +318,17 @@ tr:last-child td { border-bottom: none; }
   .kpi-grid { grid-template-columns: 1fr; }
   .ads-grid { grid-template-columns: 1fr; }
   .ads-channels { grid-template-columns: 1fr; }
+  .tab-btn { font-size: 11px; padding: 7px 10px 9px; }
 }
 </style>
+</head>
+<body>
 
+<!-- Cabecera global -->
 <header class="header">
   <div>
     <div class="hd-client">Matnature</div>
-    <div class="hd-period">Septiembre 2026 · Progreso de ventas</div>
+    <div class="hd-period" id="globalPeriod">Progreso de ventas · historico mensual</div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;padding-top:4px">
     <div class="hd-badge">Roicos</div>
@@ -280,6 +341,23 @@ tr:last-child td { border-bottom: none; }
   </div>
 </header>
 
+<!-- Barra de pestanas -->
+<nav class="tab-bar">
+  <button class="tab-btn active" data-tab="sep2026">
+    Sep 2026 <span class="tab-badge closed">Cerrado</span>
+  </button>
+  <button class="tab-btn" data-tab="oct2026">
+    Oct 2026 <span class="tab-badge live">En curso</span>
+  </button>
+</nav>
+
+<!-- ══ PESTANA SEP 2026 ══ -->
+<div class="tab-panel active" id="sep2026">
+
+<div class="note-box">
+  <strong>Sep 2026 · Datos definitivos</strong> — Mes cerrado. Acumulado final: 757.956 € (75,8% del objetivo 1M).
+</div>
+
 <div class="hero">
   <div class="hero-row">
     <div class="hero-amount">757.956 €</div>
@@ -287,57 +365,53 @@ tr:last-child td { border-bottom: none; }
   </div>
   <div class="bar-wrap">
     <div class="bar-fill" style="width:75.8%"></div>
-    <div class="bar-objetivo-tick" title="Pace objetivo día 30/30" style="left:100.00%"></div>
+    <div class="bar-objetivo-tick" style="left:100%"></div>
   </div>
   <div class="bar-meta">
     <span class="bar-pct">75,8% completado</span>
-    <span class="bar-gap">Faltan 242.044 € · objetivo día 30: 100,0%</span>
+    <span class="bar-gap">Deficit final: 242.044 €</span>
   </div>
-</div>
-
-<div class="note-box">
-  <strong>Sep 30 en curso</strong> — Datos Sep 1–29 definitivos. Actualizado automáticamente 30/09/2026.
 </div>
 
 <div class="strip">
   <div class="strip-item">
-    <div class="strip-num">29</div>
-    <div class="strip-label">días con cierre definitivo</div>
+    <div class="strip-num">30</div>
+    <div class="strip-label">dias del mes</div>
   </div>
   <div class="strip-item">
-    <div class="strip-num accent">1</div>
-    <div class="strip-label">días completos restantes</div>
+    <div class="strip-num accent">0</div>
+    <div class="strip-label">dias restantes</div>
   </div>
   <div class="strip-item">
-    <div class="strip-num sm">26.136 €</div>
-    <div class="strip-label">media diaria<br>Sep 1–29</div>
+    <div class="strip-num sm">25.265 €</div>
+    <div class="strip-label">media diaria<br>Sep mes completo</div>
   </div>
   <div class="strip-item">
-    <div class="strip-num red sm">-7.197 €</div>
-    <div class="strip-label">déficit diario<br>vs objetivo</div>
+    <div class="strip-num red sm">-8.068 €</div>
+    <div class="strip-label">deficit diario<br>vs objetivo</div>
   </div>
 </div>
 
 <div class="kpi-grid">
   <div class="kpi">
-    <div class="kpi-label">Acumulado Sep 1–29</div>
+    <div class="kpi-label">Acumulado Sep 2026</div>
     <div class="kpi-val">757.956 €</div>
     <div class="kpi-sub">Seller 663.760 + Vendor 94.196</div>
   </div>
   <div class="kpi">
-    <div class="kpi-label">Proyección al ritmo actual</div>
-    <div class="kpi-val amber">784.080 €</div>
-    <div class="kpi-sub">a 26.136 €/día × 30 días</div>
+    <div class="kpi-label">Resultado vs objetivo</div>
+    <div class="kpi-val red">75,8%</div>
+    <div class="kpi-sub">-242.044 € vs 1M objetivo</div>
   </div>
   <div class="kpi">
-    <div class="kpi-label">Brecha vs objetivo 1M</div>
-    <div class="kpi-val red">–215.920 €</div>
-    <div class="kpi-sub">al ritmo actual</div>
+    <div class="kpi-label">Seller ES · mes completo</div>
+    <div class="kpi-val">663.760 €</div>
+    <div class="kpi-sub">87,6% del total · ACoS 18,1%</div>
   </div>
   <div class="kpi">
-    <div class="kpi-label">Ritmo necesario Sep 30</div>
-    <div class="kpi-val">242.044 €/día</div>
-    <div class="kpi-sub">+826% vs ritmo actual</div>
+    <div class="kpi-label">Vendor ES · shipped</div>
+    <div class="kpi-val">94.196 €</div>
+    <div class="kpi-sub">12,4% del total · ads pausados Sep 4</div>
   </div>
 </div>
 
@@ -345,51 +419,50 @@ tr:last-child td { border-bottom: none; }
 <div class="proj-card">
   <div class="proj-row">
     <div class="proj-scenario">
-      Al ritmo actual sin cambios
-      <span class="proj-sub">26.136 €/día × 30 días mes completo</span>
+      Resultado final mes
+      <span class="proj-sub">Sep 1–30 · acumulado definitivo</span>
     </div>
-    <div class="proj-val amber">784.080 €<span class="badge badge-amber">–21,6%</span></div>
+    <div class="proj-val amber">757.956 €<span class="badge badge-amber">–24,2%</span></div>
   </div>
   <div class="proj-row">
     <div class="proj-scenario">
-      Ritmo diario necesario para llegar al objetivo
-      <span class="proj-sub">242.044 €/día desde Sep 30 · 1 día restante · faltan 242.044 €</span>
+      Deficit vs objetivo 1M
+      <span class="proj-sub">Objetivo dia 30: 1.000.000 € · real: 757.956 €</span>
     </div>
-    <div class="proj-val">242.044 €/día</div>
+    <div class="proj-val red">–242.044 €<span class="badge badge-red">–24,2% vs objetivo</span></div>
   </div>
   <div class="proj-row">
     <div class="proj-scenario">
-      Déficit acumulado vs objetivo
-      <span class="proj-sub">objetivo día 29: 966.657€ · real: 757.956€</span>
+      Ritmo diario medio conseguido
+      <span class="proj-sub">vs 33.333 €/dia necesario para objetivo 1M</span>
     </div>
-    <div class="proj-val red">–208.701 €<span class="badge badge-red">–21,6% vs objetivo</span></div>
+    <div class="proj-val red">25.265 €/dia</div>
   </div>
 </div>
 
-<div class="section-hd">Desglose por canal · Sep 1–29</div>
+<div class="section-hd">Desglose por canal · Sep 2026</div>
 <div class="channels">
   <div class="ch">
     <div class="ch-name">Seller ES</div>
     <div class="ch-amount">663.760 €</div>
-    <div class="ch-daily">22.888 €/día</div>
+    <div class="ch-daily">22.125 €/dia</div>
     <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:87.6%"></div></div>
     <div class="ch-share">87,6% del total</div>
-    <span class="ch-tag tag-ok">Campañas activas</span>
+    <span class="ch-tag tag-ok">Campanias activas</span>
   </div>
   <div class="ch">
     <div class="ch-name">Vendor ES</div>
     <div class="ch-amount">94.196 €</div>
-    <div class="ch-daily">3.248 €/día · shipped</div>
+    <div class="ch-daily">3.140 €/dia · shipped</div>
     <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:12.4%;opacity:0.55"></div></div>
     <div class="ch-share">12,4% del total</div>
     <span class="ch-tag tag-warn">Sin ads desde Sep 4</span>
   </div>
 </div>
 
-<div class="section-hd">Publicidad Sep 1–29</div>
+<div class="section-hd">Publicidad Sep 2026</div>
 
 <div class="ads-channels">
-
   <div class="ads-ch">
     <div class="ads-ch-header">
       <span class="ads-ch-name">Seller ES</span>
@@ -398,7 +471,7 @@ tr:last-child td { border-bottom: none; }
     <div class="ads-ch-row">
       <div class="ads-ch-metric">
         <div class="ads-ch-val">62.895 €</div>
-        <div class="ads-ch-label">Inversión total</div>
+        <div class="ads-ch-label">Inversion total</div>
       </div>
       <div class="ads-ch-metric">
         <div class="ads-ch-val">347.939 €</div>
@@ -408,11 +481,11 @@ tr:last-child td { border-bottom: none; }
     <div class="ads-ch-row">
       <div class="ads-ch-metric">
         <div class="ads-ch-val">2.246 €</div>
-        <div class="ads-ch-label">Gasto medio/día</div>
+        <div class="ads-ch-label">Gasto medio/dia</div>
       </div>
       <div class="ads-ch-metric">
         <div class="ads-ch-val">12.426 €</div>
-        <div class="ads-ch-label">Ad sales medio/día</div>
+        <div class="ads-ch-label">Ad sales medio/dia</div>
       </div>
     </div>
     <div class="ads-ch-pills">
@@ -426,7 +499,7 @@ tr:last-child td { border-bottom: none; }
     </div>
     <div class="ads-split-legend">
       <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--orange)"></span>Ads 347.939 € (54,8%)</span>
-      <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--surface-2);border:1px solid var(--border)"></span>Orgánico ~287.113 € (45,2%)</span>
+      <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--surface-2);border:1px solid var(--border)"></span>Organico ~287.113 € (45,2%)</span>
     </div>
   </div>
 
@@ -438,7 +511,7 @@ tr:last-child td { border-bottom: none; }
     <div class="ads-ch-row">
       <div class="ads-ch-metric">
         <div class="ads-ch-val dim">416 €</div>
-        <div class="ads-ch-label">Inversión total</div>
+        <div class="ads-ch-label">Inversion total</div>
       </div>
       <div class="ads-ch-metric">
         <div class="ads-ch-val dim">2.319 €</div>
@@ -448,27 +521,26 @@ tr:last-child td { border-bottom: none; }
     <div class="ads-ch-row">
       <div class="ads-ch-metric">
         <div class="ads-ch-val dim">139 €</div>
-        <div class="ads-ch-label">Gasto medio/día activo</div>
+        <div class="ads-ch-label">Gasto medio/dia activo</div>
       </div>
       <div class="ads-ch-metric">
         <div class="ads-ch-val dim">773 €</div>
-        <div class="ads-ch-label">Ad sales medio/día activo</div>
+        <div class="ads-ch-label">Ad sales medio/dia activo</div>
       </div>
     </div>
     <div class="ads-ch-pills">
       <span class="ads-pill">ACoS 18,0%</span>
       <span class="ads-pill">ROAS 5,6x</span>
-      <span class="ads-pill ads-pill-muted">3 días activo (Sep 1–3)</span>
+      <span class="ads-pill ads-pill-muted">3 dias activo (Sep 1–3)</span>
     </div>
-    <div class="ads-paused-note">Sin campañas activas desde Sep 4. Datos se actualizarán si se reanudan.</div>
+    <div class="ads-paused-note">Sin campanias activas desde Sep 4.</div>
   </div>
-
 </div>
 
 <div class="section-hd">Ventas diarias vs objetivo</div>
 <div class="chart-card">
-  <div class="chart-title">Seller ES + Vendor ES combinado · Sep 1–29</div>
-  <div class="chart-sub">Barras = ventas diarias reales · Línea roja = objetivo diario 33.333€</div>
+  <div class="chart-title">Seller ES + Vendor ES combinado · Sep 1–30</div>
+  <div class="chart-sub">Barras = ventas diarias reales · Linea roja = objetivo diario 33.333€</div>
   <div class="chart-wrap">
     <canvas id="dailyChart"></canvas>
   </div>
@@ -480,7 +552,7 @@ tr:last-child td { border-bottom: none; }
 
 <div class="chart-card">
   <div class="chart-title">Acumulado real vs acumulado objetivo</div>
-  <div class="chart-sub">El área roja muestra el déficit respecto al ritmo necesario para 1M€</div>
+  <div class="chart-sub">El area roja muestra el deficit respecto al ritmo necesario para 1M€</div>
   <div class="chart-wrap">
     <canvas id="cumulChart"></canvas>
   </div>
@@ -495,7 +567,7 @@ tr:last-child td { border-bottom: none; }
 <table>
   <thead>
     <tr>
-      <th>Día</th>
+      <th>Dia</th>
       <th>Seller ES</th>
       <th>Vendor est.</th>
       <th>Combinado</th>
@@ -507,19 +579,72 @@ tr:last-child td { border-bottom: none; }
 </table>
 </div>
 
-<p class="footer">Seller ES ventas netas sin IVA · Vendor ES shipped revenue (sell-out) · Vendor diario estimado a media plana Sep 1–29<br>Datos actualizados 30/09/2026 · Acumulado definitivo Sep 1–29 · Sep 30 en curso</p>
+<p class="footer">Seller ES ventas netas sin IVA · Vendor ES shipped revenue (sell-out) · Vendor diario estimado a media plana<br>Sep 2026 cerrado · Datos definitivos · Dashboard: ogonzalez-cell.github.io/matnature-dashboard</p>
+
+</div><!-- /sep2026 -->
+
+<!-- ══ PESTANA OCT 2026 ══ -->
+<div class="tab-panel" id="oct2026">
+
+<div class="placeholder-panel">
+  <div class="placeholder-icon">&#128197;</div>
+  <div class="placeholder-title">Octubre 2026 · Mes en curso</div>
+  <div class="placeholder-sub">
+    Los datos de octubre se cargaran automaticamente a partir del 1 de octubre.<br>
+    La rutina diaria actualiza este panel cada maniana con los datos del dia anterior.
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi-label">Acumulado Oct 2026</div>
+    <div class="kpi-val dim">— €</div>
+    <div class="kpi-sub">Datos pendientes</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Objetivo octubre</div>
+    <div class="kpi-val">1.000.000 €</div>
+    <div class="kpi-sub">31 dias · 32.258 €/dia</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Seller ES</div>
+    <div class="kpi-val dim">— €</div>
+    <div class="kpi-sub">Datos pendientes</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Vendor ES</div>
+    <div class="kpi-val dim">— €</div>
+    <div class="kpi-sub">Datos pendientes</div>
+  </div>
+</div>
+
+<p class="footer">Dashboard mensual Matnature · Roicos · Datos se actualizan cada maniana automaticamente</p>
+
+</div><!-- /oct2026 -->
 
 <script>
-const SELLER = [30005, 20662, 23278, 23987, 23866, 27798, 27013, 26132, 25858, 21491, 19047, 16480, 21627, 25546, 27075, 22901, 21139, 16659, 15429, 19057, 22305, 19390, 21719, 21728, 18752, 17750, 21241, 29266, 36563];
-const VENDOR_EST = Array(29).fill(3248);
+// ── Tab switching ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+  });
+});
+
+// ── Sep 2026 data ──
+const SELLER = [30005, 20662, 23278, 23987, 23866, 27798, 27013, 26132, 25858, 21491, 19047, 16480, 21627, 25546, 27075, 22901, 21139, 16659, 15429, 19057, 22305, 19390, 21719, 21728, 18752, 17750, 21241, 29266, 36563, 26124];
+const VENDOR_EST = Array(30).fill(3140);
 const OBJETIVO_DIARIO = 33333;
-const labels = Array.from({length: 29}, (_, i) => `${i+1} sep`);
+const labels = Array.from({length: 30}, (_, i) => `${i+1} sep`);
 
 const combined = SELLER.map((s, i) => s + VENDOR_EST[i]);
 const cumReal = [];
 const cumObj = [];
 let runReal = 0, runObj = 0;
-for (let i = 0; i < 29; i++) {
+for (let i = 0; i < 30; i++) {
   runReal += combined[i];
   runObj += OBJETIVO_DIARIO;
   cumReal.push(runReal);
@@ -548,11 +673,11 @@ SELLER.forEach((s, i) => {
 });
 const totalRow = document.createElement('tr');
 const totalSeller = SELLER.reduce((a, b) => a + b, 0);
-const totalVendor = VENDOR_EST[0] * 29;
+const totalVendor = VENDOR_EST[0] * 30;
 const totalCombined = totalSeller + totalVendor;
-const totalDiff = totalCombined - OBJETIVO_DIARIO * 29;
+const totalDiff = totalCombined - OBJETIVO_DIARIO * 30;
 totalRow.innerHTML = `
-  <td class="td-total">Total 1–29</td>
+  <td class="td-total">Total Sep</td>
   <td class="td-total">${totalSeller.toLocaleString('es-ES')} €</td>
   <td class="td-total td-partial">${totalVendor.toLocaleString('es-ES')} €</td>
   <td class="td-total">${totalCombined.toLocaleString('es-ES')} €</td>
@@ -589,7 +714,7 @@ function initCharts() {
         {
           type: 'line',
           label: 'Objetivo diario 33.333€',
-          data: Array(29).fill(OBJETIVO_DIARIO),
+          data: Array(30).fill(OBJETIVO_DIARIO),
           borderColor: 'rgba(192,57,43,0.7)',
           borderWidth: 2,
           borderDash: [4, 3],
@@ -655,3 +780,5 @@ function initCharts() {
 
 if (document.fonts) { document.fonts.ready.then(initCharts); } else { initCharts(); }
 </script>
+</body>
+</html>
