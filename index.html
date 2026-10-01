@@ -278,16 +278,6 @@ tr:last-child td { border-bottom: none; }
 .ads-pill-muted { color: var(--text-sec); font-weight: 400; }
 .ads-paused-note { font-size: 11px; color: var(--text-sec); font-style: italic; margin-top: 4px; padding-top: 8px; border-top: 1px solid var(--border); }
 
-/* ── Placeholder de mes futuro ── */
-.placeholder-panel {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; padding: 40px 24px; text-align: center;
-  margin-bottom: 16px;
-}
-.placeholder-icon { font-size: 36px; margin-bottom: 12px; }
-.placeholder-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.placeholder-sub { font-size: 12px; color: var(--text-sec); line-height: 1.6; }
-
 .note-box {
   background: var(--orange-dim); border: 1px solid rgba(255,153,0,0.25);
   border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;
@@ -586,39 +576,158 @@ tr:last-child td { border-bottom: none; }
 <!-- ══ PESTANA OCT 2026 ══ -->
 <div class="tab-panel" id="oct2026">
 
-<div class="placeholder-panel">
-  <div class="placeholder-icon">&#128197;</div>
-  <div class="placeholder-title">Octubre 2026 · Mes en curso</div>
-  <div class="placeholder-sub">
-    Los datos de octubre se cargaran automaticamente a partir del 1 de octubre.<br>
-    La rutina diaria actualiza este panel cada maniana con los datos del dia anterior.
+<div class="note-box">
+  <strong>Oct 1 en curso — Datos parciales (hasta 07:00 UTC).</strong> Seller 1.527€ datos incompletos de inicio de dia. Vendor estimado a media sep 3.140€/dia (sin datos frescos de oct). Acumulado parcial: 4.667€ (0,5% del objetivo 1M).
+</div>
+
+<div class="hero">
+  <div class="hero-row">
+    <div class="hero-amount">4.667 €</div>
+    <div class="hero-target-label">Objetivo <strong>1.000.000 €</strong></div>
+  </div>
+  <div class="bar-wrap">
+    <div class="bar-fill" style="width:0.5%"></div>
+    <div class="bar-objetivo-tick" style="left:100%"></div>
+  </div>
+  <div class="bar-meta">
+    <span class="bar-pct">0,5% completado</span>
+    <span class="bar-gap">Pendiente: 995.333 €</span>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="strip-item">
+    <div class="strip-num accent">1</div>
+    <div class="strip-label">dia con datos<br>(parcial hoy)</div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-num">30</div>
+    <div class="strip-label">dias restantes</div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-num sm">32.258 €</div>
+    <div class="strip-label">objetivo diario<br>para 1M</div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-num red sm">-27.591 €</div>
+    <div class="strip-label">deficit dia 1<br>(datos parciales)</div>
   </div>
 </div>
 
 <div class="kpi-grid">
   <div class="kpi">
-    <div class="kpi-label">Acumulado Oct 2026</div>
-    <div class="kpi-val dim">— €</div>
-    <div class="kpi-sub">Datos pendientes</div>
+    <div class="kpi-label">Acumulado Oct (parcial)</div>
+    <div class="kpi-val">4.667 €</div>
+    <div class="kpi-sub">Seller 1.527 + Vendor est. 3.140</div>
   </div>
   <div class="kpi">
-    <div class="kpi-label">Objetivo octubre</div>
-    <div class="kpi-val">1.000.000 €</div>
-    <div class="kpi-sub">31 dias · 32.258 €/dia</div>
+    <div class="kpi-label">Pace necesario</div>
+    <div class="kpi-val amber">33.178 €/dia</div>
+    <div class="kpi-sub">Para los 30 dias restantes hasta 1M</div>
   </div>
   <div class="kpi">
-    <div class="kpi-label">Seller ES</div>
-    <div class="kpi-val dim">— €</div>
-    <div class="kpi-sub">Datos pendientes</div>
+    <div class="kpi-label">Seller ES · oct 1 (parcial)</div>
+    <div class="kpi-val">1.527 €</div>
+    <div class="kpi-sub">Datos hasta 07:00 UTC · dia incompleto</div>
   </div>
   <div class="kpi">
-    <div class="kpi-label">Vendor ES</div>
-    <div class="kpi-val dim">— €</div>
-    <div class="kpi-sub">Datos pendientes</div>
+    <div class="kpi-label">Vendor ES · oct 1 (estimado)</div>
+    <div class="kpi-val dim">3.140 €</div>
+    <div class="kpi-sub">Media sep 2026 · sin datos frescos oct</div>
   </div>
 </div>
 
-<p class="footer">Dashboard mensual Matnature · Roicos · Datos se actualizan cada maniana automaticamente</p>
+<div class="section-hd">Desglose por canal · Oct 1 parcial</div>
+<div class="channels">
+  <div class="ch">
+    <div class="ch-name">Seller ES</div>
+    <div class="ch-amount">1.527 €</div>
+    <div class="ch-daily">Datos parciales hasta 07:00 UTC</div>
+    <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:32.7%"></div></div>
+    <div class="ch-share">32,7% del total parcial</div>
+    <span class="ch-tag tag-ok">Campanias activas</span>
+  </div>
+  <div class="ch">
+    <div class="ch-name">Vendor ES</div>
+    <div class="ch-amount">3.140 €</div>
+    <div class="ch-daily">3.140 €/dia estimado (media sep 2026)</div>
+    <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:67.3%;opacity:0.55"></div></div>
+    <div class="ch-share">67,3% del total parcial</div>
+    <span class="ch-tag tag-warn">Sin datos frescos oct</span>
+  </div>
+</div>
+
+<div class="section-hd">Publicidad Oct 2026</div>
+<div class="note-box">Sin datos de ads disponibles — Oct 1 con datos parciales hasta 07:00 UTC. Los datos de publicidad se reportan con lag de ~24h y estaran disponibles manana.</div>
+
+<div class="section-hd">Ventas diarias vs objetivo</div>
+<div class="chart-card">
+  <div class="chart-title">Seller ES + Vendor ES combinado · Oct 1 (parcial)</div>
+  <div class="chart-sub">Barras = ventas diarias combinadas · Linea roja = objetivo diario 32.258€</div>
+  <div class="chart-wrap">
+    <canvas id="dailyChartOct"></canvas>
+  </div>
+  <div class="chart-legend">
+    <div class="legend-item"><div class="legend-dot orange"></div><span>Ventas diarias combinadas</span></div>
+    <div class="legend-item"><div class="legend-dot red"></div><span>Objetivo diario 32.258€</span></div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Acumulado real vs acumulado objetivo</div>
+  <div class="chart-sub">El area roja muestra el deficit respecto al ritmo necesario para 1M€</div>
+  <div class="chart-wrap">
+    <canvas id="cumulChartOct"></canvas>
+  </div>
+  <div class="chart-legend">
+    <div class="legend-item"><div class="legend-dot orange"></div><span>Acumulado real</span></div>
+    <div class="legend-item"><div class="legend-dot red"></div><span>Acumulado objetivo (ritmo a 1M)</span></div>
+  </div>
+</div>
+
+<div class="section-hd">Tabla diaria</div>
+<div class="daily-table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Dia</th>
+      <th>Seller ES</th>
+      <th>Vendor est.</th>
+      <th>Combinado</th>
+      <th>vs Objetivo</th>
+      <th>Acumulado</th>
+    </tr>
+  </thead>
+  <tbody id="dailyTableBodyOct"></tbody>
+</table>
+</div>
+
+<div class="section-hd">Escenarios de cierre</div>
+<div class="proj-card">
+  <div class="proj-row">
+    <div class="proj-scenario">
+      Pace necesario · dias restantes
+      <span class="proj-sub">30 dias restantes para alcanzar 1.000.000€ desde 4.667€</span>
+    </div>
+    <div class="proj-val amber">33.178 €/dia</div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-scenario">
+      Proyeccion al ritmo de sep
+      <span class="proj-sub">Media sep: 25.265 €/dia · 31 dias oct</span>
+    </div>
+    <div class="proj-val red">783.215 €<span class="badge badge-red">–21,7% vs objetivo</span></div>
+  </div>
+  <div class="proj-row">
+    <div class="proj-scenario">
+      Objetivo mensual
+      <span class="proj-sub">31 dias · 32.258 €/dia necesario</span>
+    </div>
+    <div class="proj-val">1.000.000 €</div>
+  </div>
+</div>
+
+<p class="footer">Seller ES ventas netas sin IVA · Vendor ES shipped revenue estimado a media sep 2026 (sin datos frescos) · Datos parciales oct 1 hasta 07:00 UTC<br>Actualizacion: 01/10/2026 · Dashboard: ogonzalez-cell.github.io/matnature-dashboard</p>
 
 </div><!-- /oct2026 -->
 
@@ -685,6 +794,45 @@ totalRow.innerHTML = `
   <td class="td-total">${totalCombined.toLocaleString('es-ES')} €</td>
 `;
 tbody.appendChild(totalRow);
+
+// ── Oct 2026 data ──
+const SELLER_OCT = [1527];
+const VENDOR_EST_OCT = Array(1).fill(3140);
+const OBJETIVO_DIARIO_OCT = 32258;
+const labels_oct = ['1 oct (parcial)'];
+const N_OCT = 1;
+
+const combined_oct = SELLER_OCT.map((s, i) => s + VENDOR_EST_OCT[i]);
+const cumReal_oct = [];
+const cumObj_oct = [];
+let runReal_oct = 0, runObj_oct = 0;
+for (let i = 0; i < N_OCT; i++) {
+  runReal_oct += combined_oct[i];
+  runObj_oct += OBJETIVO_DIARIO_OCT;
+  cumReal_oct.push(runReal_oct);
+  cumObj_oct.push(runObj_oct);
+}
+
+const tbodyOct = document.getElementById('dailyTableBodyOct');
+let accumOct = 0;
+SELLER_OCT.forEach((s, i) => {
+  const v = VENDOR_EST_OCT[i];
+  const c = s + v;
+  accumOct += c;
+  const diff = c - OBJETIVO_DIARIO_OCT;
+  const row = document.createElement('tr');
+  const diffClass = diff >= 0 ? 'td-above' : 'td-below';
+  const diffSign = diff >= 0 ? '+' : '';
+  row.innerHTML = `
+    <td>${i+1} oct (parcial)</td>
+    <td class="td-partial">${s.toLocaleString('es-ES')} €</td>
+    <td class="td-partial">${v.toLocaleString('es-ES')} €</td>
+    <td class="td-partial">${c.toLocaleString('es-ES')} €</td>
+    <td class="${diffClass}">${diffSign}${diff.toLocaleString('es-ES')} €</td>
+    <td>${accumOct.toLocaleString('es-ES')} €</td>
+  `;
+  tbodyOct.appendChild(row);
+});
 
 function getStyle(prop) {
   return getComputedStyle(document.documentElement).getPropertyValue(prop).trim();
@@ -778,7 +926,97 @@ function initCharts() {
   });
 }
 
-if (document.fonts) { document.fonts.ready.then(initCharts); } else { initCharts(); }
+function initChartsOct() {
+  const textSec = getStyle('--text-sec') || '#5A5A5A';
+  const border = getStyle('--border') || '#E4E4E4';
+  const orange = '#FF9900';
+
+  new Chart(document.getElementById('dailyChartOct'), {
+    data: {
+      labels: labels_oct,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Combinado diario',
+          data: combined_oct,
+          backgroundColor: combined_oct.map(v => v >= OBJETIVO_DIARIO_OCT ? 'rgba(255,153,0,0.7)' : 'rgba(255,153,0,0.4)'),
+          borderColor: combined_oct.map(v => v >= OBJETIVO_DIARIO_OCT ? orange : 'rgba(255,153,0,0.6)'),
+          borderWidth: 1,
+          borderRadius: 3,
+        },
+        {
+          type: 'line',
+          label: 'Objetivo diario 32.258€',
+          data: Array(N_OCT).fill(OBJETIVO_DIARIO_OCT),
+          borderColor: 'rgba(192,57,43,0.7)',
+          borderWidth: 2,
+          borderDash: [4, 3],
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-ES')} €` } }
+      },
+      scales: {
+        x: { grid: { color: border, drawBorder: false }, ticks: { maxRotation: 45 } },
+        y: { grid: { color: border, drawBorder: false }, ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(0) + 'k €' : v + ' €' }, min: 0 }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('cumulChartOct'), {
+    data: {
+      labels: labels_oct,
+      datasets: [
+        {
+          type: 'line',
+          label: 'Acumulado objetivo',
+          data: cumObj_oct,
+          borderColor: 'rgba(192,57,43,0.6)',
+          borderWidth: 2,
+          borderDash: [4, 3],
+          pointRadius: 0,
+          fill: false,
+        },
+        {
+          type: 'line',
+          label: 'Acumulado real',
+          data: cumReal_oct,
+          borderColor: orange,
+          borderWidth: 2.5,
+          pointRadius: 3,
+          pointBackgroundColor: orange,
+          fill: { target: 0, above: 'rgba(255,153,0,0.15)', below: 'rgba(192,57,43,0.08)' },
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString('es-ES')} €` } }
+      },
+      scales: {
+        x: { grid: { color: border, drawBorder: false }, ticks: { maxRotation: 45 } },
+        y: { grid: { color: border, drawBorder: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'k €' }, min: 0 }
+      }
+    }
+  });
+}
+
+if (document.fonts) {
+  document.fonts.ready.then(() => { initCharts(); initChartsOct(); });
+} else {
+  initCharts();
+  initChartsOct();
+}
 </script>
 </body>
 </html>
