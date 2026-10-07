@@ -401,7 +401,7 @@ tr:last-child td { border-bottom:none; }
     <div class="chart-wrap"><canvas id="octDailyChart"></canvas></div>
     <div class="chart-legend">
       <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>Acumulado real</span></div>
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(160,160,160,0.7)"></div><span>Proyección pace actual</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(160,160,160,0.7)"></div><span>Proyección estacional (base oct-25)</span></div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div><span>Objetivo 1.000.000€</span></div>
     </div>
   </div>
@@ -575,13 +575,56 @@ function renderOct() {
   // Último punto real conocido
   const lastRealIdx = realAccum.reduce((last, v, i) => v !== null ? i : last, -1);
   const lastRealVal = lastRealIdx >= 0 ? realAccum[lastRealIdx] : 0;
-  const daysWithData = lastRealIdx + 1;
-  const mediaDiaCombinada = daysWithData > 0 ? lastRealVal / daysWithData : OCT_OBJETIVO_DIARIO;
 
-  // Proyección: null hasta el penúltimo día real, empalma en el último día real y continúa
+  // Pesos estacionales basados en distribución diaria de oct-2025 (Seller + Vendor)
+  // Día 1: solo Seller (Vendor=0 por bug first-day-of-range). Días 7-8: pico PBDD 2025.
+  const OCT2025_COMBINED = [
+    6485.15,  // d1
+    16251.71, // d2
+    13990.47, // d3
+    11056.47, // d4
+    10878.33, // d5
+    12531.33, // d6
+    56492.96, // d7 PBDD D1-2025
+    49885.00, // d8 PBDD D2-2025
+    11491.91, // d9
+     9965.43, // d10
+     7965.58, // d11
+     9607.03, // d12
+     8414.80, // d13
+    13307.41, // d14
+    11622.19, // d15
+    10145.61, // d16
+    11590.99, // d17
+    10788.24, // d18
+    10209.72, // d19
+    11974.28, // d20
+    16323.79, // d21
+    12473.81, // d22
+    10943.85, // d23
+     8898.33, // d24
+    10954.75, // d25
+    12123.91, // d26
+    13506.79, // d27
+    15934.53, // d28
+    14684.70, // d29
+    15149.17, // d30
+    11551.50, // d31
+  ];
+  const oct2025Total = OCT2025_COMBINED.reduce((a, b) => a + b, 0);
+  const oct2025Weights = OCT2025_COMBINED.map(v => v / oct2025Total);
+  const knownShare = oct2025Weights.slice(0, lastRealIdx + 1).reduce((a, b) => a + b, 0);
+  const projectedMonthTotal = knownShare > 0 ? lastRealVal / knownShare : lastRealVal / (OCT_DIAS_MES / 31);
+
+  // Proyección estacional: null hasta el penúltimo día real, empalma en el último día real
   const proyAccum = allDays.map((d, i) => {
     if (i < lastRealIdx) return null;
-    return lastRealVal + mediaDiaCombinada * (i - lastRealIdx);
+    if (i === lastRealIdx) return lastRealVal;
+    let extra = 0;
+    for (let k = lastRealIdx + 1; k <= i; k++) {
+      extra += projectedMonthTotal * oct2025Weights[k];
+    }
+    return lastRealVal + extra;
   });
 
   // Objetivo horizontal = 1.000.000€
@@ -605,7 +648,7 @@ function renderOct() {
           spanGaps: false,
         },
         {
-          label: 'Proyección pace actual',
+          label: 'Proyección estacional (base oct-25)',
           data: proyAccum,
           borderColor: 'rgba(140,140,140,0.65)',
           backgroundColor: 'rgba(140,140,140,0.06)',
