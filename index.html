@@ -616,15 +616,11 @@ function renderOct() {
   const knownShare = oct2025Weights.slice(0, lastRealIdx + 1).reduce((a, b) => a + b, 0);
   const projectedMonthTotal = knownShare > 0 ? lastRealVal / knownShare : lastRealVal / (OCT_DIAS_MES / 31);
 
-  // Proyección estacional: null hasta el penúltimo día real, empalma en el último día real
+  // Proyección estacional: curva completa día 1→31 para ver si el real va por encima o por debajo
   const proyAccum = allDays.map((d, i) => {
-    if (i < lastRealIdx) return null;
-    if (i === lastRealIdx) return lastRealVal;
-    let extra = 0;
-    for (let k = lastRealIdx + 1; k <= i; k++) {
-      extra += projectedMonthTotal * oct2025Weights[k];
-    }
-    return lastRealVal + extra;
+    let cumWeight = 0;
+    for (let k = 0; k <= i; k++) cumWeight += oct2025Weights[k];
+    return Math.round(projectedMonthTotal * cumWeight);
   });
 
   // Objetivo horizontal = 1.000.000€
