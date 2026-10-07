@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Matnature · Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Matnature 2026</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -21,304 +21,178 @@
   --amber: #D4700A;
   --green: #1E8449;
   --green-dim: rgba(30,132,73,0.10);
+  --prime: #0073B7;
+  --prime-dim: rgba(0,115,183,0.12);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --text: #EDEDED;
-    --text-sec: #909090;
-    --bg: #1A1A1A;
-    --surface: #242424;
-    --surface-2: #2C2C2C;
-    --border: #343434;
-    --orange-dim: rgba(255,153,0,0.16);
-    --red-dim: rgba(192,57,43,0.14);
-    --green-dim: rgba(30,132,73,0.14);
-    --amber: #E8891A;
-    --green: #27AE60;
+    --text: #EDEDED; --text-sec: #909090; --bg: #1A1A1A;
+    --surface: #242424; --surface-2: #2C2C2C; --border: #343434;
+    --orange-dim: rgba(255,153,0,0.16); --red-dim: rgba(192,57,43,0.14);
+    --green-dim: rgba(30,132,73,0.14); --amber: #E8891A; --green: #27AE60;
+    --prime-dim: rgba(0,115,183,0.18);
   }
 }
 :root[data-theme="dark"] {
-  --text: #EDEDED;
-  --text-sec: #909090;
-  --bg: #1A1A1A;
-  --surface: #242424;
-  --surface-2: #2C2C2C;
-  --border: #343434;
-  --orange-dim: rgba(255,153,0,0.16);
-  --red-dim: rgba(192,57,43,0.14);
-  --green-dim: rgba(30,132,73,0.14);
-  --amber: #E8891A;
-  --green: #27AE60;
+  --text: #EDEDED; --text-sec: #909090; --bg: #1A1A1A;
+  --surface: #242424; --surface-2: #2C2C2C; --border: #343434;
+  --orange-dim: rgba(255,153,0,0.16); --red-dim: rgba(192,57,43,0.14);
+  --green-dim: rgba(30,132,73,0.14); --amber: #E8891A; --green: #27AE60;
+  --prime-dim: rgba(0,115,183,0.18);
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   font-family: 'Poppins', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  padding: 22px 18px 32px;
-  font-size: 14px;
+  background: var(--bg); color: var(--text);
+  padding: 22px 18px 40px; font-size: 14px;
   font-variant-numeric: tabular-nums;
-  max-width: 720px;
-  margin-inline: auto;
+  max-width: 720px; margin-inline: auto;
 }
+/* ── HEADER ── */
+.header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; flex-wrap:wrap; gap:8px; }
+.hd-client { font-size:20px; font-weight:700; color:var(--text); line-height:1.15; }
+.hd-period { font-size:11px; font-weight:500; color:var(--text-sec); letter-spacing:.05em; text-transform:uppercase; margin-top:3px; }
+.hd-badge { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600; color:var(--text-sec); letter-spacing:.07em; text-transform:uppercase; padding-top:4px; }
+.hd-badge::before { content:''; display:block; width:8px; height:8px; border-radius:50%; background:var(--orange); flex-shrink:0; }
+.btn-pdf { display:flex; align-items:center; gap:6px; font-family:'Poppins',system-ui,sans-serif; font-size:12px; font-weight:600; color:var(--bg); background:var(--orange); border:none; border-radius:8px; padding:8px 14px; cursor:pointer; transition:background .15s; white-space:nowrap; flex-shrink:0; }
+.btn-pdf:hover { background:#E08800; }
 
-/* ── Tab bar ── */
-.tab-bar {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 18px;
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 0;
-}
-.tab-btn {
-  font-family: 'Poppins', system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-sec);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  padding: 8px 14px 10px;
-  cursor: pointer;
-  border-radius: 6px 6px 0 0;
-  transition: color 0.12s, border-color 0.12s, background 0.12s;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-.tab-btn:hover { color: var(--text); background: var(--surface); }
-.tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
-.tab-btn .tab-badge {
-  display: inline-block;
-  font-size: 9px;
-  font-weight: 600;
-  padding: 1px 5px;
-  border-radius: 999px;
-  margin-left: 5px;
-  vertical-align: middle;
-}
-.tab-badge.closed { background: var(--surface-2); color: var(--text-sec); }
-.tab-badge.live { background: var(--orange-dim); color: var(--orange); }
+/* ── TABS ── */
+.tabs { display:flex; gap:4px; margin-bottom:20px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:4px; }
+.tab-btn { flex:1; font-family:'Poppins',system-ui,sans-serif; font-size:12px; font-weight:600; color:var(--text-sec); background:transparent; border:none; border-radius:8px; padding:9px 12px; cursor:pointer; transition:background .15s, color .15s; letter-spacing:.02em; }
+.tab-btn.active { background:var(--orange); color:#fff; }
+.tab-btn .tab-sub { display:block; font-size:10px; font-weight:400; opacity:.8; margin-top:1px; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
 
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
+/* ── CARDS ── */
+.hero { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px 20px 16px; margin-bottom:12px; }
+.hero-row { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+.hero-amount { font-size:36px; font-weight:700; color:var(--text); line-height:1; }
+.hero-target-label { font-size:13px; color:var(--text-sec); font-weight:500; }
+.hero-target-label strong { color:var(--text); font-weight:700; }
+.bar-wrap { background:var(--surface-2); border-radius:999px; height:12px; overflow:hidden; margin-bottom:9px; position:relative; }
+.bar-fill { height:100%; border-radius:999px; background:var(--orange); }
+.bar-meta { display:flex; justify-content:space-between; align-items:center; }
+.bar-pct { font-size:14px; font-weight:700; color:var(--orange); }
+.bar-gap { font-size:12px; color:var(--text-sec); font-weight:500; }
 
-/* ── Header ── */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.hd-client { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.15; }
-.hd-period { font-size: 11px; font-weight: 500; color: var(--text-sec); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 3px; }
-.hd-badge {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 600; color: var(--text-sec);
-  letter-spacing: 0.07em; text-transform: uppercase; padding-top: 4px;
-}
-.hd-badge::before {
-  content: ''; display: block; width: 8px; height: 8px;
-  border-radius: 50%; background: var(--orange); flex-shrink: 0;
-}
+.note-box { background:var(--orange-dim); border:1px solid rgba(255,153,0,.25); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:11px; color:var(--text-sec); line-height:1.6; }
+.note-box strong { color:var(--orange); }
+.note-prime { background:var(--prime-dim); border:1px solid rgba(0,115,183,.25); }
+.note-prime strong { color:var(--prime); }
 
-.hero {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; padding: 20px 20px 16px; margin-bottom: 12px;
-}
-.hero-row {
-  display: flex; justify-content: space-between; align-items: baseline;
-  flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
-}
-.hero-amount { font-size: 36px; font-weight: 700; color: var(--text); line-height: 1; }
-.hero-target-label { font-size: 13px; color: var(--text-sec); font-weight: 500; }
-.hero-target-label strong { color: var(--text); font-weight: 700; }
-.bar-wrap { background: var(--surface-2); border-radius: 999px; height: 12px; overflow: hidden; margin-bottom: 9px; position: relative; }
-.bar-fill { height: 100%; border-radius: 999px; background: var(--orange); }
-.bar-objetivo-tick {
-  position: absolute; top: 0; bottom: 0; width: 2px;
-  background: rgba(192,57,43,0.5); border-radius: 1px;
-}
-.bar-meta { display: flex; justify-content: space-between; align-items: center; }
-.bar-pct { font-size: 14px; font-weight: 700; color: var(--orange); }
-.bar-gap { font-size: 12px; color: var(--text-sec); font-weight: 500; }
+.strip { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-bottom:12px; }
+.strip-item { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 12px 10px; }
+.strip-num { font-size:22px; font-weight:700; color:var(--text); line-height:1; margin-bottom:3px; }
+.strip-num.accent { color:var(--orange); }
+.strip-num.red { color:var(--red); }
+.strip-num.sm { font-size:15px; margin-top:3px; }
+.strip-label { font-size:10px; color:var(--text-sec); font-weight:500; line-height:1.4; }
 
-.strip {
-  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 8px; margin-bottom: 12px;
+.kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+.kpi { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 15px; }
+.kpi-label { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-sec); margin-bottom:5px; }
+.kpi-val { font-size:20px; font-weight:700; color:var(--text); line-height:1.1; }
+.kpi-val.red { color:var(--red); }
+.kpi-val.amber { color:var(--amber); }
+.kpi-val.green { color:var(--green); }
+.kpi-sub { font-size:11px; color:var(--text-sec); margin-top:2px; font-weight:400; }
+
+.section-hd { font-size:10px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--text-sec); margin-bottom:8px; }
+
+.chart-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px; }
+.chart-title { font-size:12px; font-weight:600; color:var(--text); margin-bottom:4px; }
+.chart-sub { font-size:11px; color:var(--text-sec); margin-bottom:12px; }
+.chart-wrap { position:relative; height:180px; }
+.chart-legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-size:11px; color:var(--text-sec); }
+.legend-item { display:flex; align-items:center; gap:5px; }
+.legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+
+.daily-table-wrap { overflow-x:auto; margin-bottom:16px; }
+table { width:100%; border-collapse:collapse; font-size:12px; }
+th { font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-sec); text-align:right; padding:5px 8px; border-bottom:1px solid var(--border); white-space:nowrap; }
+th:first-child { text-align:left; }
+td { text-align:right; padding:6px 8px; border-bottom:1px solid var(--border); color:var(--text); white-space:nowrap; }
+td:first-child { text-align:left; color:var(--text-sec); font-weight:500; }
+tr:last-child td { border-bottom:none; }
+.td-above { color:var(--green); font-weight:600; }
+.td-below { color:var(--red); font-weight:600; }
+.td-total { font-weight:700; background:var(--surface-2); }
+.td-partial { color:var(--text-sec); font-style:italic; }
+.td-prime { color:var(--prime); font-weight:600; }
+.badge-prime { display:inline-block; background:var(--prime-dim); color:var(--prime); font-size:9px; font-weight:700; padding:2px 6px; border-radius:999px; margin-left:4px; vertical-align:middle; }
+.badge-wip { display:inline-block; background:var(--orange-dim); color:var(--amber); font-size:9px; font-weight:700; padding:2px 6px; border-radius:999px; margin-left:4px; vertical-align:middle; }
+
+.channels { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+.ch { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px; }
+.ch-name { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-sec); margin-bottom:7px; }
+.ch-amount { font-size:20px; font-weight:700; color:var(--text); line-height:1.1; margin-bottom:3px; }
+.ch-daily { font-size:11px; color:var(--text-sec); font-weight:500; margin-bottom:9px; }
+.ch-bar-wrap { background:var(--surface-2); border-radius:999px; height:5px; overflow:hidden; margin-bottom:5px; }
+.ch-bar-fill { height:100%; border-radius:999px; background:var(--orange); }
+.ch-share { font-size:10px; color:var(--text-sec); font-weight:500; }
+.ch-tag { display:inline-block; font-size:10px; font-weight:600; padding:2px 7px; border-radius:999px; margin-top:5px; }
+.tag-ok { background:var(--orange-dim); color:var(--orange); }
+.tag-warn { background:var(--red-dim); color:var(--red); }
+.tag-prime { background:var(--prime-dim); color:var(--prime); }
+
+.ads-channels { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+.ads-ch { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; }
+.ads-ch-header { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.ads-ch-name { font-weight:700; font-size:13px; color:var(--text); }
+.ads-ch-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+.ads-ch-metric { display:flex; flex-direction:column; gap:2px; }
+.ads-ch-val { font-size:18px; font-weight:700; color:var(--orange); }
+.ads-ch-val.dim { color:var(--text-sec); opacity:.65; }
+.ads-ch-label { font-size:10px; color:var(--text-sec); text-transform:uppercase; letter-spacing:.04em; }
+.ads-ch-pills { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; margin-bottom:8px; }
+.ads-pill { background:var(--surface-2); border:1px solid var(--border); border-radius:20px; padding:2px 9px; font-size:11px; font-weight:600; color:var(--text); }
+.ads-pill-muted { color:var(--text-sec); font-weight:400; }
+.ads-paused-note { font-size:11px; color:var(--text-sec); font-style:italic; margin-top:4px; padding-top:8px; border-top:1px solid var(--border); }
+.ads-split-wrap { display:flex; height:18px; border-radius:6px; overflow:hidden; margin-bottom:8px; margin-top:10px; }
+.seg-ads { background:var(--orange); }
+.seg-organic { flex:1; background:var(--surface-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.ads-split-legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:6px; }
+.ads-leg-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-sec); }
+.ads-leg-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+
+.proj-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:16px; }
+.proj-row { display:flex; justify-content:space-between; align-items:center; padding:12px 15px; border-bottom:1px solid var(--border); gap:12px; }
+.proj-row:last-child { border-bottom:none; }
+.proj-scenario { font-size:13px; font-weight:500; color:var(--text); }
+.proj-sub { font-size:11px; color:var(--text-sec); font-weight:400; display:block; margin-top:2px; }
+.proj-val { font-size:16px; font-weight:700; white-space:nowrap; text-align:right; }
+.proj-val.amber { color:var(--amber); }
+.proj-val.red { color:var(--red); }
+.badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.04em; padding:2px 7px; border-radius:999px; margin-left:6px; vertical-align:middle; }
+.badge-amber { background:rgba(212,112,10,.13); color:var(--amber); }
+.badge-red { background:var(--red-dim); color:var(--red); }
+
+.footer { font-size:11px; color:var(--text-sec); text-align:center; line-height:1.6; margin-top:8px; }
+
+@media (max-width:480px) {
+  .hero-amount { font-size:28px; }
+  .channels,.ads-channels { grid-template-columns:1fr; }
+  .strip { grid-template-columns:1fr 1fr; }
+  .kpi-grid { grid-template-columns:1fr; }
+  .tabs { flex-direction:column; }
 }
-.strip-item {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px 12px 10px;
-}
-.strip-num { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 3px; }
-.strip-num.accent { color: var(--orange); }
-.strip-num.red { color: var(--red); }
-.strip-num.sm { font-size: 15px; margin-top: 3px; }
-.strip-label { font-size: 10px; color: var(--text-sec); font-weight: 500; line-height: 1.4; }
-
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-.kpi {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 13px 15px;
-}
-.kpi-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-sec); margin-bottom: 5px; }
-.kpi-val { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.1; }
-.kpi-val.red { color: var(--red); }
-.kpi-val.dim { color: var(--text-sec); }
-.kpi-val.amber { color: var(--amber); }
-.kpi-sub { font-size: 11px; color: var(--text-sec); margin-top: 2px; font-weight: 400; }
-
-.section-hd { font-size: 10px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-sec); margin-bottom: 8px; }
-
-.chart-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 16px; margin-bottom: 16px;
-}
-.chart-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.chart-sub { font-size: 11px; color: var(--text-sec); margin-bottom: 12px; }
-.chart-wrap { position: relative; height: 180px; }
-.chart-legend {
-  display: flex; gap: 16px; flex-wrap: wrap;
-  margin-top: 10px; font-size: 11px; color: var(--text-sec);
-}
-.legend-item { display: flex; align-items: center; gap: 5px; }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-.legend-dot.orange { background: var(--orange); }
-.legend-dot.red { background: var(--red); opacity: 0.55; }
-
-.daily-table-wrap { overflow-x: auto; margin-bottom: 16px; }
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--text-sec);
-  text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-}
-th:first-child { text-align: left; }
-td {
-  text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border);
-  color: var(--text); white-space: nowrap;
-}
-td:first-child { text-align: left; color: var(--text-sec); font-weight: 500; }
-tr:last-child td { border-bottom: none; }
-.td-above { color: var(--green); font-weight: 600; }
-.td-below { color: var(--red); font-weight: 600; }
-.td-total { font-weight: 700; background: var(--surface-2); }
-.td-partial { color: var(--text-sec); font-style: italic; }
-
-.channels { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-.ch { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-.ch-name { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-sec); margin-bottom: 7px; }
-.ch-amount { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.1; margin-bottom: 3px; }
-.ch-daily { font-size: 11px; color: var(--text-sec); font-weight: 500; margin-bottom: 9px; }
-.ch-bar-wrap { background: var(--surface-2); border-radius: 999px; height: 5px; overflow: hidden; margin-bottom: 5px; }
-.ch-bar-fill { height: 100%; border-radius: 999px; background: var(--orange); }
-.ch-share { font-size: 10px; color: var(--text-sec); font-weight: 500; }
-.ch-tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px; margin-top: 5px; }
-.tag-ok { background: var(--orange-dim); color: var(--orange); }
-.tag-warn { background: var(--red-dim); color: var(--red); }
-
-.proj-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
-.proj-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); gap: 12px; }
-.proj-row:last-child { border-bottom: none; }
-.proj-scenario { font-size: 13px; font-weight: 500; color: var(--text); }
-.proj-sub { font-size: 11px; color: var(--text-sec); font-weight: 400; display: block; margin-top: 2px; }
-.proj-val { font-size: 16px; font-weight: 700; white-space: nowrap; text-align: right; }
-.proj-val.amber { color: var(--amber); }
-.proj-val.red { color: var(--red); }
-.badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
-.badge-amber { background: rgba(212,112,10,0.13); color: var(--amber); }
-.badge-red { background: var(--red-dim); color: var(--red); }
-
-.footer { font-size: 11px; color: var(--text-sec); text-align: center; line-height: 1.6; }
-
-.btn-pdf {
-  display: flex; align-items: center; gap: 6px;
-  font-family: 'Poppins', system-ui, sans-serif;
-  font-size: 12px; font-weight: 600;
-  color: var(--bg); background: var(--orange);
-  border: none; border-radius: 8px;
-  padding: 8px 14px; cursor: pointer;
-  transition: background 0.15s, opacity 0.15s;
-  white-space: nowrap; flex-shrink: 0;
-}
-.btn-pdf:hover { background: #E08800; }
-.btn-pdf:active { opacity: 0.85; }
-.btn-pdf svg { flex-shrink: 0; }
-
-.ads-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.ads-bar-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 14px 15px; margin-bottom: 16px;
-}
-.ads-bar-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 4px; }
-.ads-bar-label { font-size: 11px; color: var(--text-sec); font-weight: 500; }
-.ads-split-wrap { display: flex; height: 18px; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
-.seg-ads { background: var(--orange); }
-.seg-organic { flex: 1; background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.ads-split-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
-.ads-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-sec); }
-.ads-leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-.ads-channels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.ads-ch { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
-.ads-ch-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-.ads-ch-name { font-weight: 700; font-size: 13px; color: var(--text); }
-.ads-ch-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.ads-ch-metric { display: flex; flex-direction: column; gap: 2px; }
-.ads-ch-val { font-size: 18px; font-weight: 700; color: var(--orange); }
-.ads-ch-val.dim { color: var(--text-sec); opacity: 0.65; }
-.ads-ch-label { font-size: 10px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.04em; }
-.ads-ch-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; margin-bottom: 8px; }
-.ads-pill { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 2px 9px; font-size: 11px; font-weight: 600; color: var(--text); }
-.ads-pill-muted { color: var(--text-sec); font-weight: 400; }
-.ads-paused-note { font-size: 11px; color: var(--text-sec); font-style: italic; margin-top: 4px; padding-top: 8px; border-top: 1px solid var(--border); }
-
-.note-box {
-  background: var(--orange-dim); border: 1px solid rgba(255,153,0,0.25);
-  border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;
-  font-size: 11px; color: var(--text-sec); line-height: 1.6;
-}
-.note-box strong { color: var(--orange); }
-
 @media print {
-  .btn-pdf, .tab-bar { display: none !important; }
-  .tab-panel { display: block !important; }
-  .ads-bar-card { page-break-inside: avoid; }
-  body { padding: 12px 16px 20px; max-width: 100%; }
-  .chart-card { page-break-inside: avoid; }
-  .daily-table-wrap { page-break-inside: avoid; }
-  .channels { page-break-inside: avoid; }
-  .proj-card { page-break-inside: avoid; }
-  .strip { page-break-inside: avoid; }
-  .kpi-grid { page-break-inside: avoid; }
-  .hero { page-break-inside: avoid; }
-  .note-box { display: none; }
-  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-}
-
-@media (max-width: 480px) {
-  .hero-amount { font-size: 28px; }
-  .channels { grid-template-columns: 1fr; }
-  .strip { grid-template-columns: 1fr 1fr; }
-  .kpi-grid { grid-template-columns: 1fr; }
-  .ads-grid { grid-template-columns: 1fr; }
-  .ads-channels { grid-template-columns: 1fr; }
-  .tab-btn { font-size: 11px; padding: 7px 10px 9px; }
+  .btn-pdf,.tabs { display:none !important; }
+  .tab-panel { display:block !important; }
+  body { padding:12px 16px 20px; max-width:100%; }
+  .chart-card,.daily-table-wrap,.channels,.proj-card,.strip,.kpi-grid,.hero { page-break-inside:avoid; }
+  * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 }
 </style>
 </head>
 <body>
 
-<!-- Cabecera global -->
 <header class="header">
   <div>
     <div class="hd-client">Matnature</div>
-    <div class="hd-period" id="globalPeriod">Progreso de ventas · historico mensual</div>
+    <div class="hd-period" id="headerPeriod">Dashboard de ventas · 2026</div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;padding-top:4px">
     <div class="hd-badge">Roicos</div>
@@ -326,606 +200,418 @@ tr:last-child td { border-bottom: none; }
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 16V4M12 16l-4-4M12 16l4-4"/><path d="M4 20h16"/>
       </svg>
-      Descargar PDF
+      PDF
     </button>
   </div>
 </header>
 
-<!-- Barra de pestanas -->
-<nav class="tab-bar">
-  <button class="tab-btn active" data-tab="sep2026">
-    Sep 2026 <span class="tab-badge closed">Cerrado</span>
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn" onclick="switchTab('sep')" id="tab-sep">
+    Septiembre 2026
+    <span class="tab-sub">Cerrado · 757.956 €</span>
   </button>
-  <button class="tab-btn" data-tab="oct2026">
-    Oct 2026 <span class="tab-badge live">En curso</span>
+  <button class="tab-btn active" onclick="switchTab('oct')" id="tab-oct">
+    Octubre 2026
+    <span class="tab-sub" id="oct-tab-sub">En curso · Prime Big Deal Days</span>
   </button>
-</nav>
-
-<!-- ══ PESTANA SEP 2026 ══ -->
-<div class="tab-panel active" id="sep2026">
-
-<div class="note-box">
-  <strong>Sep 2026 · Datos definitivos</strong> — Mes cerrado. Acumulado final: 757.956 € (75,8% del objetivo 1M).
 </div>
 
-<div class="hero">
-  <div class="hero-row">
-    <div class="hero-amount">757.956 €</div>
-    <div class="hero-target-label">Objetivo <strong>1.000.000 €</strong></div>
-  </div>
-  <div class="bar-wrap">
-    <div class="bar-fill" style="width:75.8%"></div>
-    <div class="bar-objetivo-tick" style="left:100%"></div>
-  </div>
-  <div class="bar-meta">
-    <span class="bar-pct">75,8% completado</span>
-    <span class="bar-gap">Deficit final: 242.044 €</span>
-  </div>
-</div>
+<!-- ═══════════════════ PANEL SEPTIEMBRE ═══════════════════ -->
+<div class="tab-panel" id="panel-sep">
 
-<div class="strip">
-  <div class="strip-item">
-    <div class="strip-num">30</div>
-    <div class="strip-label">dias del mes</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-num accent">0</div>
-    <div class="strip-label">dias restantes</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-num sm">25.265 €</div>
-    <div class="strip-label">media diaria<br>Sep mes completo</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-num red sm">-8.068 €</div>
-    <div class="strip-label">deficit diario<br>vs objetivo</div>
-  </div>
-</div>
-
-<div class="kpi-grid">
-  <div class="kpi">
-    <div class="kpi-label">Acumulado Sep 2026</div>
-    <div class="kpi-val">757.956 €</div>
-    <div class="kpi-sub">Seller 663.760 + Vendor 94.196</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Resultado vs objetivo</div>
-    <div class="kpi-val red">75,8%</div>
-    <div class="kpi-sub">-242.044 € vs 1M objetivo</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Seller ES · mes completo</div>
-    <div class="kpi-val">663.760 €</div>
-    <div class="kpi-sub">87,6% del total · ACoS 18,1%</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Vendor ES · shipped</div>
-    <div class="kpi-val">94.196 €</div>
-    <div class="kpi-sub">12,4% del total · ads pausados Sep 4</div>
-  </div>
-</div>
-
-<div class="section-hd">Escenarios de cierre</div>
-<div class="proj-card">
-  <div class="proj-row">
-    <div class="proj-scenario">
-      Resultado final mes
-      <span class="proj-sub">Sep 1–30 · acumulado definitivo</span>
+  <div class="hero">
+    <div class="hero-row">
+      <div class="hero-amount">757.956 €</div>
+      <div class="hero-target-label">Objetivo <strong>1.000.000 €</strong></div>
     </div>
-    <div class="proj-val amber">757.956 €<span class="badge badge-amber">–24,2%</span></div>
-  </div>
-  <div class="proj-row">
-    <div class="proj-scenario">
-      Deficit vs objetivo 1M
-      <span class="proj-sub">Objetivo dia 30: 1.000.000 € · real: 757.956 €</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:75.8%"></div></div>
+    <div class="bar-meta">
+      <span class="bar-pct">75,8% del objetivo</span>
+      <span class="bar-gap">Sep cerrado · déficit 242.044 €</span>
     </div>
-    <div class="proj-val red">–242.044 €<span class="badge badge-red">–24,2% vs objetivo</span></div>
   </div>
-  <div class="proj-row">
-    <div class="proj-scenario">
-      Ritmo diario medio conseguido
-      <span class="proj-sub">vs 33.333 €/dia necesario para objetivo 1M</span>
+
+  <div class="note-box"><strong>Septiembre cerrado</strong> — Datos Sep 1–30 definitivos. Seller ES 663.760 € + Vendor ES 94.196 €.</div>
+
+  <div class="strip">
+    <div class="strip-item"><div class="strip-num">30</div><div class="strip-label">días mes completo</div></div>
+    <div class="strip-item"><div class="strip-num sm">26.136 €</div><div class="strip-label">media diaria Sep</div></div>
+    <div class="strip-item"><div class="strip-num sm">663.760 €</div><div class="strip-label">Seller ES</div></div>
+    <div class="strip-item"><div class="strip-num sm">94.196 €</div><div class="strip-label">Vendor ES</div></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Total Sep 1–30</div>
+      <div class="kpi-val">757.956 €</div>
+      <div class="kpi-sub">Seller 663.760 + Vendor 94.196</div>
     </div>
-    <div class="proj-val red">25.265 €/dia</div>
-  </div>
-</div>
-
-<div class="section-hd">Desglose por canal · Sep 2026</div>
-<div class="channels">
-  <div class="ch">
-    <div class="ch-name">Seller ES</div>
-    <div class="ch-amount">663.760 €</div>
-    <div class="ch-daily">22.125 €/dia</div>
-    <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:87.6%"></div></div>
-    <div class="ch-share">87,6% del total</div>
-    <span class="ch-tag tag-ok">Campanias activas</span>
-  </div>
-  <div class="ch">
-    <div class="ch-name">Vendor ES</div>
-    <div class="ch-amount">94.196 €</div>
-    <div class="ch-daily">3.140 €/dia · shipped</div>
-    <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:12.4%;opacity:0.55"></div></div>
-    <div class="ch-share">12,4% del total</div>
-    <span class="ch-tag tag-warn">Sin ads desde Sep 4</span>
-  </div>
-</div>
-
-<div class="section-hd">Publicidad Sep 2026</div>
-
-<div class="ads-channels">
-  <div class="ads-ch">
-    <div class="ads-ch-header">
-      <span class="ads-ch-name">Seller ES</span>
-      <span class="ch-tag tag-ok">Activo</span>
+    <div class="kpi">
+      <div class="kpi-label">Proyección vs objetivo</div>
+      <div class="kpi-val amber">784.080 €</div>
+      <div class="kpi-sub">ritmo 26.136€/día × 30 días</div>
     </div>
-    <div class="ads-ch-row">
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">62.895 €</div>
-        <div class="ads-ch-label">Inversion total</div>
+    <div class="kpi">
+      <div class="kpi-label">Brecha vs objetivo 1M</div>
+      <div class="kpi-val red">–215.920 €</div>
+      <div class="kpi-sub">al ritmo real del mes</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">ACoS Seller (Sep 1–29)</div>
+      <div class="kpi-val">18,1%</div>
+      <div class="kpi-sub">TACoS 9,9% · ROAS 5,5x</div>
+    </div>
+  </div>
+
+  <div class="section-hd">Desglose por canal · Sep 1–30</div>
+  <div class="channels">
+    <div class="ch">
+      <div class="ch-name">Seller ES</div>
+      <div class="ch-amount">663.760 €</div>
+      <div class="ch-daily">22.888 €/día</div>
+      <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:87.6%"></div></div>
+      <div class="ch-share">87,6% del total</div>
+      <span class="ch-tag tag-ok">Campañas activas</span>
+    </div>
+    <div class="ch">
+      <div class="ch-name">Vendor ES</div>
+      <div class="ch-amount">94.196 €</div>
+      <div class="ch-daily">3.248 €/día · shipped</div>
+      <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:12.4%;opacity:.55"></div></div>
+      <div class="ch-share">12,4% del total</div>
+      <span class="ch-tag tag-warn">Sin ads desde Sep 4</span>
+    </div>
+  </div>
+
+  <div class="section-hd">Publicidad Sep 1–29</div>
+  <div class="ads-channels">
+    <div class="ads-ch">
+      <div class="ads-ch-header"><span class="ads-ch-name">Seller ES</span><span class="ch-tag tag-ok">Activo</span></div>
+      <div class="ads-ch-row">
+        <div class="ads-ch-metric"><div class="ads-ch-val">62.895 €</div><div class="ads-ch-label">Inversión total</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val">347.939 €</div><div class="ads-ch-label">Ventas por ads</div></div>
       </div>
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">347.939 €</div>
-        <div class="ads-ch-label">Ventas por ads</div>
+      <div class="ads-ch-row">
+        <div class="ads-ch-metric"><div class="ads-ch-val">2.246 €</div><div class="ads-ch-label">Gasto medio/día</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val">12.426 €</div><div class="ads-ch-label">Ad sales medio/día</div></div>
+      </div>
+      <div class="ads-ch-pills">
+        <span class="ads-pill">ACoS 18,1%</span>
+        <span class="ads-pill">TACoS 9,9%</span>
+        <span class="ads-pill">ROAS 5,5x</span>
+      </div>
+      <div class="ads-split-wrap"><div class="seg-ads" style="width:54.8%"></div><div class="seg-organic"></div></div>
+      <div class="ads-split-legend">
+        <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--orange)"></span>Ads 347.939 € (54,8%)</span>
+        <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--surface-2);border:1px solid var(--border)"></span>Orgánico ~287k € (45,2%)</span>
       </div>
     </div>
-    <div class="ads-ch-row">
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">2.246 €</div>
-        <div class="ads-ch-label">Gasto medio/dia</div>
+    <div class="ads-ch">
+      <div class="ads-ch-header"><span class="ads-ch-name">Vendor ES</span><span class="ch-tag tag-warn">Pausado Sep 4</span></div>
+      <div class="ads-ch-row">
+        <div class="ads-ch-metric"><div class="ads-ch-val dim">416 €</div><div class="ads-ch-label">Inversión total</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val dim">2.319 €</div><div class="ads-ch-label">Ventas por ads</div></div>
       </div>
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">12.426 €</div>
-        <div class="ads-ch-label">Ad sales medio/dia</div>
+      <div class="ads-ch-pills">
+        <span class="ads-pill">ACoS 18,0%</span>
+        <span class="ads-pill ads-pill-muted">3 días activo (Sep 1–3)</span>
       </div>
-    </div>
-    <div class="ads-ch-pills">
-      <span class="ads-pill">ACoS 18,1%</span>
-      <span class="ads-pill">TACoS 9,9%</span>
-      <span class="ads-pill">ROAS 5,5x</span>
-    </div>
-    <div class="ads-split-wrap" style="margin-top:10px">
-      <div class="seg-ads" style="width:54.8%"></div>
-      <div class="seg-organic"></div>
-    </div>
-    <div class="ads-split-legend">
-      <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--orange)"></span>Ads 347.939 € (54,8%)</span>
-      <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--surface-2);border:1px solid var(--border)"></span>Organico ~287.113 € (45,2%)</span>
+      <div class="ads-paused-note">Sin campañas activas desde Sep 4.</div>
     </div>
   </div>
 
-  <div class="ads-ch">
-    <div class="ads-ch-header">
-      <span class="ads-ch-name">Vendor ES</span>
-      <span class="ch-tag tag-warn">Pausado Sep 4</span>
+  <div class="section-hd">Ventas diarias Seller ES vs objetivo</div>
+  <div class="chart-card">
+    <div class="chart-title">Seller ES diario · Sep 1–29</div>
+    <div class="chart-sub">Barras = ventas reales · Línea = objetivo diario 33.333€</div>
+    <div class="chart-wrap"><canvas id="sepDailyChart"></canvas></div>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>Ventas Seller ES</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div><span>Objetivo 33.333€/día</span></div>
     </div>
-    <div class="ads-ch-row">
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val dim">416 €</div>
-        <div class="ads-ch-label">Inversion total</div>
+  </div>
+
+  <div class="section-hd">Tabla diaria Seller ES</div>
+  <div class="daily-table-wrap">
+    <table>
+      <thead><tr><th>Día</th><th>Seller ES</th><th>vs Objetivo</th><th>Acumulado Seller</th></tr></thead>
+      <tbody id="sepTableBody"></tbody>
+    </table>
+  </div>
+
+  <p class="footer">Seller ES ventas netas sin IVA · Vendor ES shipped revenue · Datos Sep 2026 definitivos · Objetivo mensual 1.000.000 €</p>
+</div><!-- /panel-sep -->
+
+
+<!-- ═══════════════════ PANEL OCTUBRE ═══════════════════ -->
+<div class="tab-panel active" id="panel-oct">
+
+  <!-- Hero dinámico desde JS -->
+  <div class="hero" id="octHero">
+    <div class="hero-row">
+      <div class="hero-amount" id="octAmount">—</div>
+      <div class="hero-target-label">Objetivo <strong>1.000.000 €</strong></div>
+    </div>
+    <div class="bar-wrap"><div class="bar-fill" id="octBarFill" style="width:0%"></div></div>
+    <div class="bar-meta">
+      <span class="bar-pct" id="octBarPct">0,0%</span>
+      <span class="bar-gap" id="octBarGap"></span>
+    </div>
+  </div>
+
+  <div class="note-box note-prime" id="octNote">
+    <strong>Prime Big Deal Days 2026</strong> — 6 y 7 de octubre. Datos actualizados diariamente. Días sin confirmar marcados en cursiva.
+  </div>
+
+  <div class="strip" id="octStrip">
+    <div class="strip-item"><div class="strip-num accent" id="octDiasDef">—</div><div class="strip-label">días con dato definitivo</div></div>
+    <div class="strip-item"><div class="strip-num sm" id="octMediaDia">—</div><div class="strip-label">media diaria (días def.)</div></div>
+    <div class="strip-item"><div class="strip-num sm" id="octBestDay">—</div><div class="strip-label">mejor día del mes</div></div>
+    <div class="strip-item"><div class="strip-num sm" id="octAdKpi">—</div><div class="strip-label">ACoS último día</div></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Acumulado Oct (Seller ES)</div>
+      <div class="kpi-val" id="octKpiAcum">—</div>
+      <div class="kpi-sub" id="octKpiAcumSub"></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Proyección ritmo actual</div>
+      <div class="kpi-val amber" id="octKpiProj">—</div>
+      <div class="kpi-sub" id="octKpiProjSub"></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">PBDD Día 1 (6 oct)</div>
+      <div class="kpi-val green">59.954 €</div>
+      <div class="kpi-sub">598 uds · 510 pedidos · sin IVA</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Ads PBDD Día 1</div>
+      <div class="kpi-val">ACoS 23,2%</div>
+      <div class="kpi-sub">Spend 5.204 € · Ad sales 22.470 €</div>
+    </div>
+  </div>
+
+  <div class="section-hd">Ventas diarias Seller ES · Octubre</div>
+  <div class="chart-card">
+    <div class="chart-title">Seller ES diario · Octubre 2026</div>
+    <div class="chart-sub">Barras sólidas = definitivas · Barras tenues = estimadas/en curso · Línea = objetivo 33.333€</div>
+    <div class="chart-wrap"><canvas id="octDailyChart"></canvas></div>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>Ventas definitivas</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange);opacity:.35"></div><span>Estimadas/en curso</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div><span>Objetivo 33.333€</span></div>
+    </div>
+  </div>
+
+  <div class="section-hd">Tabla diaria · Octubre 2026</div>
+  <div class="daily-table-wrap">
+    <table>
+      <thead><tr><th>Día</th><th>Seller ES</th><th>Ads spend</th><th>ACoS</th><th>vs Objetivo</th><th>Acumulado</th></tr></thead>
+      <tbody id="octTableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-hd">Publicidad · Octubre (acumulado disponible)</div>
+  <div class="ads-channels">
+    <div class="ads-ch">
+      <div class="ads-ch-header"><span class="ads-ch-name">Seller ES</span><span class="ch-tag tag-prime">Prime Big Deal Days</span></div>
+      <div class="ads-ch-row">
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="octAdsSpend">19.403 €</div><div class="ads-ch-label">Inversión (días 1–6)</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="octAdsSales">84.898 €</div><div class="ads-ch-label">Ventas por ads</div></div>
       </div>
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val dim">2.319 €</div>
-        <div class="ads-ch-label">Ventas por ads</div>
+      <div class="ads-ch-row">
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="octTacos">11,0%</div><div class="ads-ch-label">TACoS medio</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="octImpr">2.345.123</div><div class="ads-ch-label">Impresiones (días 1–6)</div></div>
       </div>
-    </div>
-    <div class="ads-ch-row">
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val dim">139 €</div>
-        <div class="ads-ch-label">Gasto medio/dia activo</div>
+      <div class="ads-ch-pills">
+        <span class="ads-pill" id="octAcosP">ACoS 22,9%</span>
+        <span class="ads-pill" id="octRoasP">ROAS 4,4x</span>
       </div>
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val dim">773 €</div>
-        <div class="ads-ch-label">Ad sales medio/dia activo</div>
-      </div>
+      <div class="ads-paused-note">ACoS sube durante PBDD (mayor competencia en subasta) — esperable. Días 1–5 ACoS 20–26% / PBDD D1 ACoS 23,2%, TACoS 8,7%.</div>
     </div>
-    <div class="ads-ch-pills">
-      <span class="ads-pill">ACoS 18,0%</span>
-      <span class="ads-pill">ROAS 5,6x</span>
-      <span class="ads-pill ads-pill-muted">3 dias activo (Sep 1–3)</span>
-    </div>
-    <div class="ads-paused-note">Sin campanias activas desde Sep 4.</div>
-  </div>
-</div>
-
-<div class="section-hd">Ventas diarias vs objetivo</div>
-<div class="chart-card">
-  <div class="chart-title">Seller ES + Vendor ES combinado · Sep 1–30</div>
-  <div class="chart-sub">Barras = ventas diarias reales · Linea roja = objetivo diario 33.333€</div>
-  <div class="chart-wrap">
-    <canvas id="dailyChart"></canvas>
-  </div>
-  <div class="chart-legend">
-    <div class="legend-item"><div class="legend-dot orange"></div><span>Ventas diarias combinadas</span></div>
-    <div class="legend-item"><div class="legend-dot red"></div><span>Objetivo diario 33.333€</span></div>
-  </div>
-</div>
-
-<div class="chart-card">
-  <div class="chart-title">Acumulado real vs acumulado objetivo</div>
-  <div class="chart-sub">El area roja muestra el deficit respecto al ritmo necesario para 1M€</div>
-  <div class="chart-wrap">
-    <canvas id="cumulChart"></canvas>
-  </div>
-  <div class="chart-legend">
-    <div class="legend-item"><div class="legend-dot orange"></div><span>Acumulado real</span></div>
-    <div class="legend-item"><div class="legend-dot red"></div><span>Acumulado objetivo (ritmo a 1M)</span></div>
-  </div>
-</div>
-
-<div class="section-hd">Tabla diaria</div>
-<div class="daily-table-wrap">
-<table>
-  <thead>
-    <tr>
-      <th>Dia</th>
-      <th>Seller ES</th>
-      <th>Vendor est.</th>
-      <th>Combinado</th>
-      <th>vs Objetivo</th>
-      <th>Acumulado</th>
-    </tr>
-  </thead>
-  <tbody id="dailyTableBody"></tbody>
-</table>
-</div>
-
-<p class="footer">Seller ES ventas netas sin IVA · Vendor ES shipped revenue (sell-out) · Vendor diario estimado a media plana<br>Sep 2026 cerrado · Datos definitivos · Dashboard: ogonzalez-cell.github.io/matnature-dashboard</p>
-
-</div><!-- /sep2026 -->
-
-<!-- ══ PESTANA OCT 2026 ══ -->
-<div class="tab-panel" id="oct2026">
-
-<div class="note-box">
-  <strong>Oct 2026 en curso — Datos Oct 1–3 definitivos.</strong> Seller ES 77.179€ acumulado (3 dias). Vendor estimado a media sep 2026 (3.140€/dia, sin datos frescos Vendor oct). Combinado acumulado: 86.599€ (8,7% del objetivo 1M).
-</div>
-
-<div class="hero">
-  <div class="hero-row">
-    <div class="hero-amount">86.599 €</div>
-    <div class="hero-target-label">Objetivo <strong>1.000.000 €</strong></div>
-  </div>
-  <div class="bar-wrap">
-    <div class="bar-fill" style="width:8.7%"></div>
-    <div class="bar-objetivo-tick" style="left:100%"></div>
-  </div>
-  <div class="bar-meta">
-    <span class="bar-pct">8,7% completado</span>
-    <span class="bar-gap">Pendiente: 913.401 €</span>
-  </div>
-</div>
-
-<div class="strip">
-  <div class="strip-item">
-    <div class="strip-num accent">3</div>
-    <div class="strip-label">dias con datos<br>Oct 1–3 definitivos</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-num">28</div>
-    <div class="strip-label">dias restantes<br>(Oct 4–31)</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-num sm">28.866 €</div>
-    <div class="strip-label">media diaria<br>Oct 1–3</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-num red sm">-3.392 €</div>
-    <div class="strip-label">deficit diario<br>vs objetivo</div>
-  </div>
-</div>
-
-<div class="kpi-grid">
-  <div class="kpi">
-    <div class="kpi-label">Acumulado Oct 2026</div>
-    <div class="kpi-val">86.599 €</div>
-    <div class="kpi-sub">Seller 77.179 + Vendor est. 9.420</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Pace necesario</div>
-    <div class="kpi-val amber">32.621 €/dia</div>
-    <div class="kpi-sub">Para 28 dias restantes hasta 1M</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Proyeccion al ritmo oct 1–3</div>
-    <div class="kpi-val red">894.846 €</div>
-    <div class="kpi-sub">28.866 €/dia x 31 dias · -10,5% vs objetivo</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Brecha vs objetivo</div>
-    <div class="kpi-val red">-913.401 €</div>
-    <div class="kpi-sub">Acumulado 86.599 vs objetivo 1.000.000</div>
-  </div>
-</div>
-
-<div class="section-hd">Desglose por canal · Oct 1–3</div>
-<div class="channels">
-  <div class="ch">
-    <div class="ch-name">Seller ES</div>
-    <div class="ch-amount">77.179 €</div>
-    <div class="ch-daily">25.726 €/dia media · Oct 1–3 definitivo</div>
-    <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:89.1%"></div></div>
-    <div class="ch-share">89,1% del total</div>
-    <span class="ch-tag tag-ok">Campanias activas</span>
-  </div>
-  <div class="ch">
-    <div class="ch-name">Vendor ES</div>
-    <div class="ch-amount">9.420 €</div>
-    <div class="ch-daily">3.140 €/dia estimado (media sep 2026)</div>
-    <div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:10.9%;opacity:0.55"></div></div>
-    <div class="ch-share">10,9% del total</div>
-    <span class="ch-tag tag-warn">Estimado, sin datos frescos oct</span>
-  </div>
-</div>
-
-<div class="section-hd">Publicidad Oct 2026 (Seller ES · Oct 1–3)</div>
-<div class="ads-channels">
-  <div class="ads-ch">
-    <div class="ads-ch-header">
-      <span class="ads-ch-name">Seller ES</span>
-      <span class="ch-tag tag-ok">Activo</span>
-    </div>
-    <div class="ads-ch-row">
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">8.301 €</div>
-        <div class="ads-ch-label">Inversion Oct 1–3</div>
-      </div>
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">28.534 €</div>
-        <div class="ads-ch-label">Ventas por ads Oct 1–3</div>
-      </div>
-    </div>
-    <div class="ads-ch-row">
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">2.767 €</div>
-        <div class="ads-ch-label">Gasto/dia medio</div>
-      </div>
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val">9.511 €</div>
-        <div class="ads-ch-label">Ad sales/dia medio</div>
-      </div>
-    </div>
-    <div class="ads-ch-pills">
-      <span class="ads-pill">ACoS 29,1%</span>
-      <span class="ads-pill">TACoS 10,8%</span>
-      <span class="ads-pill">ROAS 3,4x</span>
-    </div>
-    <div class="ads-split-wrap" style="margin-top:10px">
-      <div class="seg-ads" style="width:37.0%"></div>
-      <div class="seg-organic"></div>
-    </div>
-    <div class="ads-split-legend">
-      <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--orange)"></span>Ads 28.534€ (37,0%)</span>
-      <span class="ads-leg-item"><span class="ads-leg-dot" style="background:var(--surface-2);border:1px solid var(--border)"></span>Organico ~48.645€ (63,0%)</span>
+    <div class="ads-ch">
+      <div class="ads-ch-header"><span class="ads-ch-name">Vendor ES</span><span class="ch-tag tag-warn">Sin datos Oct</span></div>
+      <div class="ads-paused-note" style="margin-top:0;padding-top:0;border-top:none">Datos Vendor de octubre pendientes de confirmar. Se actualizará en próxima sesión.</div>
     </div>
   </div>
 
-  <div class="ads-ch">
-    <div class="ads-ch-header">
-      <span class="ads-ch-name">Vendor ES</span>
-      <span class="ch-tag tag-warn">Sin datos frescos</span>
-    </div>
-    <div class="ads-ch-row">
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val dim">—</div>
-        <div class="ads-ch-label">Inversion</div>
-      </div>
-      <div class="ads-ch-metric">
-        <div class="ads-ch-val dim">—</div>
-        <div class="ads-ch-label">Ventas por ads</div>
-      </div>
-    </div>
-    <div class="ads-paused-note">Sin datos de ads Vendor para octubre. Reporte no disponible.</div>
-  </div>
-</div>
+  <p class="footer">Seller ES ventas netas sin IVA · Datos de sesiones Roicos / MerchantSpring + Epinium · Actualización diaria durante octubre 2026</p>
+</div><!-- /panel-oct -->
 
-<div class="section-hd">Ventas diarias vs objetivo</div>
-<div class="chart-card">
-  <div class="chart-title">Seller ES + Vendor ES combinado · Oct 1–3</div>
-  <div class="chart-sub">Barras = ventas diarias combinadas · Linea roja = objetivo diario 32.258€</div>
-  <div class="chart-wrap">
-    <canvas id="dailyChartOct"></canvas>
-  </div>
-  <div class="chart-legend">
-    <div class="legend-item"><div class="legend-dot orange"></div><span>Ventas diarias combinadas</span></div>
-    <div class="legend-item"><div class="legend-dot red"></div><span>Objetivo diario 32.258€</span></div>
-  </div>
-</div>
-
-<div class="chart-card">
-  <div class="chart-title">Acumulado real vs acumulado objetivo</div>
-  <div class="chart-sub">El area roja muestra el deficit respecto al ritmo necesario para 1M€</div>
-  <div class="chart-wrap">
-    <canvas id="cumulChartOct"></canvas>
-  </div>
-  <div class="chart-legend">
-    <div class="legend-item"><div class="legend-dot orange"></div><span>Acumulado real</span></div>
-    <div class="legend-item"><div class="legend-dot red"></div><span>Acumulado objetivo (ritmo a 1M)</span></div>
-  </div>
-</div>
-
-<div class="section-hd">Tabla diaria</div>
-<div class="daily-table-wrap">
-<table>
-  <thead>
-    <tr>
-      <th>Dia</th>
-      <th>Seller ES</th>
-      <th>Vendor est.</th>
-      <th>Combinado</th>
-      <th>vs Objetivo</th>
-      <th>Acumulado</th>
-    </tr>
-  </thead>
-  <tbody id="dailyTableBodyOct"></tbody>
-</table>
-</div>
-
-<div class="section-hd">Escenarios de cierre</div>
-<div class="proj-card">
-  <div class="proj-row">
-    <div class="proj-scenario">
-      Pace necesario · dias restantes
-      <span class="proj-sub">28 dias restantes para alcanzar 1.000.000€ desde 86.599€</span>
-    </div>
-    <div class="proj-val amber">32.621 €/dia</div>
-  </div>
-  <div class="proj-row">
-    <div class="proj-scenario">
-      Proyeccion al ritmo oct 1–3
-      <span class="proj-sub">Media oct 1–3: 28.866 €/dia · 31 dias oct</span>
-    </div>
-    <div class="proj-val red">894.846 €<span class="badge badge-red">–10,5% vs objetivo</span></div>
-  </div>
-  <div class="proj-row">
-    <div class="proj-scenario">
-      Objetivo mensual
-      <span class="proj-sub">31 dias · 32.258 €/dia necesario</span>
-    </div>
-    <div class="proj-val">1.000.000 €</div>
-  </div>
-</div>
-
-<p class="footer">Seller ES ventas netas sin IVA · Vendor ES shipped revenue estimado a media sep 2026 (sin datos frescos oct) · Ads Seller Oct 1–3: ACoS 29,1% TACoS 10,8%<br>Actualizacion: 04/10/2026 · Dashboard: ogonzalez-cell.github.io/matnature-dashboard</p>
-
-</div><!-- /oct2026 -->
 
 <script>
-// ── Tab switching ──
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.tab;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(target).classList.add('active');
+/* ═══════════════════════════════════════════════════
+   DATOS — actualizar aquí cada día
+   ═══════════════════════════════════════════════════ */
+
+// ── SEPTIEMBRE ──
+const SEP_SELLER = [
+  30005, 20662, 23278, 23987, 23866, 27798, 27013,
+  26132, 25858, 21491, 19047, 16480, 21627, 25546,
+  27075, 22901, 21139, 16659, 15429, 19057, 22305,
+  19390, 21719, 21728, 18752, 17750, 21241, 29266, 36563
+]; // 29 días definitivos (día 30 se estimó plano)
+
+// ── OCTUBRE ──
+// null = sin dato aún | -1 = en curso (parcial, hoy)
+// Añadir filas a medida que cierren días
+const OCT_DATA = [
+  // { dia, seller, adSpend, adSales, acos, tacos, uds, pedidos, badge, definitivo }
+  { dia: 1,  seller: 22574, adSpend: 2750, adSales: 13737, acos: 20.0, tacos: 12.2, uds: 236, definitivo: true },
+  { dia: 2,  seller: 21533, adSpend: 2683, adSales: 10657, acos: 25.2, tacos: 12.5, uds: 220, definitivo: true },
+  { dia: 3,  seller: 22432, adSpend: 2899, adSales: 11001, acos: 26.4, tacos: 12.9, uds: 216, definitivo: true },
+  { dia: 4,  seller: 22048, adSpend: 2940, adSales: 11877, acos: 24.8, tacos: 13.3, uds: 225, definitivo: true },
+  { dia: 5,  seller: 28488, adSpend: 2927, adSales: 15156, acos: 19.3, tacos: 10.3, uds: 257, definitivo: true },
+  // Prime Big Deal Days
+  { dia: 6,  seller: 59954, adSpend: 5204, adSales: 22470, acos: 23.2, tacos: 8.7,
+    uds: 598, pedidos: 510, badge: 'PBDD D1', definitivo: true },
+  { dia: 7,  seller: 13061, adSpend: 22, adSales: 231, acos: 9.6, tacos: 0.2,
+    uds: 130, badge: 'PBDD D2 — parcial', definitivo: false },
+  // Rellenar días siguientes aquí:
+  // { dia: 8,  seller: XXXXX, adSpend: XXXX, acos: XX.X, definitivo: true },
+];
+const OCT_OBJETIVO_DIARIO = 33333;
+const OCT_DIAS_MES = 31;
+
+/* ═══════════════════════════════════════════════════ */
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('headerPeriod').textContent =
+    tab === 'sep' ? 'Septiembre 2026 · Cierre definitivo' : 'Octubre 2026 · En curso · Prime Big Deal Days';
+}
+
+// ── Render octubre ──
+function renderOct() {
+  const dias = OCT_DATA;
+  const definitivos = dias.filter(d => d.definitivo && d.seller !== null);
+  const totalSeller = definitivos.reduce((a, d) => a + d.seller, 0);
+  const numDef = definitivos.length;
+  const mediaDia = numDef > 0 ? Math.round(totalSeller / numDef) : 0;
+  const bestDay = numDef > 0 ? Math.max(...definitivos.map(d => d.seller)) : 0;
+  const diasRestantes = OCT_DIAS_MES - numDef;
+  const proj = numDef > 0 ? Math.round(totalSeller + mediaDia * diasRestantes) : 0;
+  const pct = (totalSeller / 1000000 * 100).toFixed(1);
+  const lastDef = definitivos[definitivos.length - 1];
+
+  document.getElementById('octAmount').textContent = totalSeller.toLocaleString('es-ES') + ' €';
+  document.getElementById('octBarFill').style.width = Math.min(pct, 100) + '%';
+  document.getElementById('octBarPct').textContent = pct + '% del objetivo';
+  document.getElementById('octBarGap').textContent =
+    'días definitivos: ' + numDef + ' · ' + diasRestantes + ' por correr';
+
+  document.getElementById('octDiasDef').textContent = numDef;
+  document.getElementById('octMediaDia').textContent = mediaDia.toLocaleString('es-ES') + ' €';
+  document.getElementById('octBestDay').textContent = bestDay.toLocaleString('es-ES') + ' €';
+  document.getElementById('octAdKpi').textContent = lastDef ? lastDef.acos + '%' : '—';
+
+  document.getElementById('octKpiAcum').textContent = totalSeller.toLocaleString('es-ES') + ' €';
+  document.getElementById('octKpiAcumSub').textContent =
+    numDef > 0 ? numDef + ' días definitivos' : 'sin datos aún';
+  document.getElementById('octKpiProj').textContent =
+    numDef > 0 ? proj.toLocaleString('es-ES') + ' €' : '—';
+  document.getElementById('octKpiProjSub').textContent =
+    numDef > 0 ? mediaDia.toLocaleString('es-ES') + ' €/día × ' + OCT_DIAS_MES + ' días' : 'pendiente';
+
+  document.getElementById('oct-tab-sub').textContent =
+    'En curso · ' + totalSeller.toLocaleString('es-ES') + ' € · ' + numDef + ' días';
+
+  // Tabla octubre
+  const tbody = document.getElementById('octTableBody');
+  tbody.innerHTML = '';
+  let accum = 0;
+  OCT_DATA.forEach(d => {
+    const tr = document.createElement('tr');
+    const s = d.seller;
+    if (s !== null) accum += s;
+    const diff = s !== null ? s - OCT_OBJETIVO_DIARIO : null;
+    const diffClass = diff === null ? '' : diff >= 0 ? 'td-above' : 'td-below';
+    const diffTxt = diff === null ? '—' : (diff >= 0 ? '+' : '') + diff.toLocaleString('es-ES') + ' €';
+    const badgeHtml = d.badge
+      ? (d.definitivo ? `<span class="badge-prime">${d.badge}</span>` : `<span class="badge-wip">${d.badge}</span>`)
+      : '';
+    const diaLabel = d.dia + ' oct' + badgeHtml;
+    tr.innerHTML = `
+      <td>${diaLabel}</td>
+      <td class="${s === null ? 'td-partial' : d.definitivo ? '' : 'td-partial'}">${s !== null ? s.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${s === null ? 'td-partial' : ''}">${d.adSpend !== null ? d.adSpend.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${s === null ? 'td-partial' : ''}">${d.acos !== null ? d.acos + '%' : '—'}</td>
+      <td class="${diffClass}">${diffTxt}</td>
+      <td class="${s === null ? 'td-partial' : ''}">${s !== null ? accum.toLocaleString('es-ES') + ' €' : '—'}</td>
+    `;
+    tbody.appendChild(tr);
   });
-});
 
-// ── Sep 2026 data ──
-const SELLER = [30005, 20662, 23278, 23987, 23866, 27798, 27013, 26132, 25858, 21491, 19047, 16480, 21627, 25546, 27075, 22901, 21139, 16659, 15429, 19057, 22305, 19390, 21719, 21728, 18752, 17750, 21241, 29266, 36563, 26124];
-const VENDOR_EST = Array(30).fill(3140);
-const OBJETIVO_DIARIO = 33333;
-const labels = Array.from({length: 30}, (_, i) => `${i+1} sep`);
+  // Chart octubre
+  const labels = OCT_DATA.map(d => d.dia + ' oct');
+  const barColors = OCT_DATA.map(d =>
+    d.seller === null ? 'rgba(255,153,0,0)' :
+    d.definitivo ? 'rgba(255,153,0,0.75)' : 'rgba(255,153,0,0.3)'
+  );
+  const barBorder = OCT_DATA.map(d =>
+    d.seller === null ? 'transparent' :
+    d.definitivo ? '#FF9900' : 'rgba(255,153,0,0.5)'
+  );
+  const chartData = OCT_DATA.map(d => d.seller || 0);
 
-const combined = SELLER.map((s, i) => s + VENDOR_EST[i]);
-const cumReal = [];
-const cumObj = [];
-let runReal = 0, runObj = 0;
-for (let i = 0; i < 30; i++) {
-  runReal += combined[i];
-  runObj += OBJETIVO_DIARIO;
-  cumReal.push(runReal);
-  cumObj.push(runObj);
-}
-
-const tbody = document.getElementById('dailyTableBody');
-let accum = 0;
-SELLER.forEach((s, i) => {
-  const v = VENDOR_EST[i];
-  const c = s + v;
-  accum += c;
-  const diff = c - OBJETIVO_DIARIO;
-  const row = document.createElement('tr');
-  const diffClass = diff >= 0 ? 'td-above' : 'td-below';
-  const diffSign = diff >= 0 ? '+' : '';
-  row.innerHTML = `
-    <td>${i+1} sep</td>
-    <td>${s.toLocaleString('es-ES')} €</td>
-    <td class="td-partial">${v.toLocaleString('es-ES')} €</td>
-    <td>${c.toLocaleString('es-ES')} €</td>
-    <td class="${diffClass}">${diffSign}${diff.toLocaleString('es-ES')} €</td>
-    <td>${accum.toLocaleString('es-ES')} €</td>
-  `;
-  tbody.appendChild(row);
-});
-const totalRow = document.createElement('tr');
-const totalSeller = SELLER.reduce((a, b) => a + b, 0);
-const totalVendor = VENDOR_EST[0] * 30;
-const totalCombined = totalSeller + totalVendor;
-const totalDiff = totalCombined - OBJETIVO_DIARIO * 30;
-totalRow.innerHTML = `
-  <td class="td-total">Total Sep</td>
-  <td class="td-total">${totalSeller.toLocaleString('es-ES')} €</td>
-  <td class="td-total td-partial">${totalVendor.toLocaleString('es-ES')} €</td>
-  <td class="td-total">${totalCombined.toLocaleString('es-ES')} €</td>
-  <td class="td-total td-below">${totalDiff.toLocaleString('es-ES')} €</td>
-  <td class="td-total">${totalCombined.toLocaleString('es-ES')} €</td>
-`;
-tbody.appendChild(totalRow);
-
-// ── Oct 2026 data ──
-const SELLER_OCT = [26668, 24980, 25531];
-const VENDOR_EST_OCT = Array(3).fill(3140);
-const OBJETIVO_DIARIO_OCT = 32258;
-const labels_oct = ['1 oct', '2 oct', '3 oct'];
-const N_OCT = 3;
-
-const combined_oct = SELLER_OCT.map((s, i) => s + VENDOR_EST_OCT[i]);
-const cumReal_oct = [];
-const cumObj_oct = [];
-let runReal_oct = 0, runObj_oct = 0;
-for (let i = 0; i < N_OCT; i++) {
-  runReal_oct += combined_oct[i];
-  runObj_oct += OBJETIVO_DIARIO_OCT;
-  cumReal_oct.push(runReal_oct);
-  cumObj_oct.push(runObj_oct);
-}
-
-const tbodyOct = document.getElementById('dailyTableBodyOct');
-let accumOct = 0;
-SELLER_OCT.forEach((s, i) => {
-  const v = VENDOR_EST_OCT[i];
-  const c = s + v;
-  accumOct += c;
-  const diff = c - OBJETIVO_DIARIO_OCT;
-  const row = document.createElement('tr');
-  const diffClass = diff >= 0 ? 'td-above' : 'td-below';
-  const diffSign = diff >= 0 ? '+' : '';
-  row.innerHTML = `
-    <td>${i+1} oct</td>
-    <td>${s.toLocaleString('es-ES')} €</td>
-    <td class="td-partial">${v.toLocaleString('es-ES')} €</td>
-    <td class="td-partial">${c.toLocaleString('es-ES')} €</td>
-    <td class="${diffClass}">${diffSign}${diff.toLocaleString('es-ES')} €</td>
-    <td>${accumOct.toLocaleString('es-ES')} €</td>
-  `;
-  tbodyOct.appendChild(row);
-});
-
-function getStyle(prop) {
-  return getComputedStyle(document.documentElement).getPropertyValue(prop).trim();
-}
-
-function initCharts() {
-  const textSec = getStyle('--text-sec') || '#5A5A5A';
-  const border = getStyle('--border') || '#E4E4E4';
-  const orange = '#FF9900';
-
-  Chart.defaults.font = { family: 'Poppins, system-ui, sans-serif', size: 11 };
-  Chart.defaults.color = textSec;
-
-  new Chart(document.getElementById('dailyChart'), {
+  new Chart(document.getElementById('octDailyChart'), {
     data: {
       labels,
       datasets: [
         {
-          type: 'bar',
-          label: 'Combinado diario',
-          data: combined,
-          backgroundColor: combined.map(v => v >= OBJETIVO_DIARIO ? 'rgba(255,153,0,0.7)' : 'rgba(255,153,0,0.4)'),
-          borderColor: combined.map(v => v >= OBJETIVO_DIARIO ? orange : 'rgba(255,153,0,0.6)'),
-          borderWidth: 1,
-          borderRadius: 3,
+          type: 'bar', label: 'Seller ES',
+          data: chartData,
+          backgroundColor: barColors, borderColor: barBorder, borderWidth: 1, borderRadius: 3,
         },
         {
-          type: 'line',
-          label: 'Objetivo diario 33.333€',
-          data: Array(30).fill(OBJETIVO_DIARIO),
-          borderColor: 'rgba(192,57,43,0.7)',
-          borderWidth: 2,
-          borderDash: [4, 3],
-          pointRadius: 0,
-          fill: false,
+          type: 'line', label: 'Objetivo',
+          data: Array(OCT_DATA.length).fill(OCT_OBJETIVO_DIARIO),
+          borderColor: 'rgba(192,57,43,0.7)', borderWidth: 2,
+          borderDash: [4, 3], pointRadius: 0, fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${(ctx.parsed.y||0).toLocaleString('es-ES')} €` } }
+      },
+      scales: {
+        x: { grid: { color: 'var(--border)', drawBorder: false }, ticks: { maxRotation: 45 } },
+        y: { grid: { color: 'var(--border)', drawBorder: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'k €' }, min: 0 }
+      }
+    }
+  });
+}
+
+// ── Render septiembre chart ──
+function renderSep() {
+  const OBJETIVO = 33333;
+  const labels = SEP_SELLER.map((_, i) => (i + 1) + ' sep');
+  new Chart(document.getElementById('sepDailyChart'), {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar', label: 'Seller ES',
+          data: SEP_SELLER,
+          backgroundColor: SEP_SELLER.map(v => v >= OBJETIVO ? 'rgba(255,153,0,0.75)' : 'rgba(255,153,0,0.4)'),
+          borderColor: SEP_SELLER.map(v => v >= OBJETIVO ? '#FF9900' : 'rgba(255,153,0,0.6)'),
+          borderWidth: 1, borderRadius: 3,
+        },
+        {
+          type: 'line', label: 'Objetivo 33.333€',
+          data: Array(SEP_SELLER.length).fill(OBJETIVO),
+          borderColor: 'rgba(192,57,43,0.7)', borderWidth: 2,
+          borderDash: [4, 3], pointRadius: 0, fill: false,
         }
       ]
     },
@@ -937,143 +623,44 @@ function initCharts() {
         tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-ES')} €` } }
       },
       scales: {
-        x: { grid: { color: border, drawBorder: false }, ticks: { maxRotation: 45 } },
-        y: { grid: { color: border, drawBorder: false }, ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(0) + 'k €' : v + ' €' }, min: 0 }
+        x: { grid: { color: 'var(--border)', drawBorder: false }, ticks: { maxRotation: 45 } },
+        y: { grid: { color: 'var(--border)', drawBorder: false }, ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(0) + 'k €' : v + ' €' }, min: 0 }
       }
     }
   });
 
-  new Chart(document.getElementById('cumulChart'), {
-    data: {
-      labels,
-      datasets: [
-        {
-          type: 'line',
-          label: 'Acumulado objetivo',
-          data: cumObj,
-          borderColor: 'rgba(192,57,43,0.6)',
-          borderWidth: 2,
-          borderDash: [4, 3],
-          pointRadius: 0,
-          fill: false,
-        },
-        {
-          type: 'line',
-          label: 'Acumulado real',
-          data: cumReal,
-          borderColor: orange,
-          borderWidth: 2.5,
-          pointRadius: 3,
-          pointBackgroundColor: orange,
-          fill: { target: 0, above: 'rgba(255,153,0,0.15)', below: 'rgba(192,57,43,0.08)' },
-        },
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      interaction: { mode: 'index' },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString('es-ES')} €` } }
-      },
-      scales: {
-        x: { grid: { color: border, drawBorder: false }, ticks: { maxRotation: 45 } },
-        y: { grid: { color: border, drawBorder: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'k €' }, min: 0 }
-      }
-    }
+  // Tabla sep
+  const tbody = document.getElementById('sepTableBody');
+  tbody.innerHTML = '';
+  let accum = 0;
+  SEP_SELLER.forEach((s, i) => {
+    accum += s;
+    const diff = s - OBJETIVO;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i + 1} sep</td>
+      <td>${s.toLocaleString('es-ES')} €</td>
+      <td class="${diff >= 0 ? 'td-above' : 'td-below'}">${(diff >= 0 ? '+' : '') + diff.toLocaleString('es-ES')} €</td>
+      <td>${accum.toLocaleString('es-ES')} €</td>
+    `;
+    tbody.appendChild(tr);
   });
-}
-
-function initChartsOct() {
-  const textSec = getStyle('--text-sec') || '#5A5A5A';
-  const border = getStyle('--border') || '#E4E4E4';
-  const orange = '#FF9900';
-
-  new Chart(document.getElementById('dailyChartOct'), {
-    data: {
-      labels: labels_oct,
-      datasets: [
-        {
-          type: 'bar',
-          label: 'Combinado diario',
-          data: combined_oct,
-          backgroundColor: combined_oct.map(v => v >= OBJETIVO_DIARIO_OCT ? 'rgba(255,153,0,0.7)' : 'rgba(255,153,0,0.4)'),
-          borderColor: combined_oct.map(v => v >= OBJETIVO_DIARIO_OCT ? orange : 'rgba(255,153,0,0.6)'),
-          borderWidth: 1,
-          borderRadius: 3,
-        },
-        {
-          type: 'line',
-          label: 'Objetivo diario 32.258€',
-          data: Array(N_OCT).fill(OBJETIVO_DIARIO_OCT),
-          borderColor: 'rgba(192,57,43,0.7)',
-          borderWidth: 2,
-          borderDash: [4, 3],
-          pointRadius: 0,
-          fill: false,
-        }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      interaction: { mode: 'index' },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-ES')} €` } }
-      },
-      scales: {
-        x: { grid: { color: border, drawBorder: false }, ticks: { maxRotation: 45 } },
-        y: { grid: { color: border, drawBorder: false }, ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(0) + 'k €' : v + ' €' }, min: 0 }
-      }
-    }
-  });
-
-  new Chart(document.getElementById('cumulChartOct'), {
-    data: {
-      labels: labels_oct,
-      datasets: [
-        {
-          type: 'line',
-          label: 'Acumulado objetivo',
-          data: cumObj_oct,
-          borderColor: 'rgba(192,57,43,0.6)',
-          borderWidth: 2,
-          borderDash: [4, 3],
-          pointRadius: 0,
-          fill: false,
-        },
-        {
-          type: 'line',
-          label: 'Acumulado real',
-          data: cumReal_oct,
-          borderColor: orange,
-          borderWidth: 2.5,
-          pointRadius: 3,
-          pointBackgroundColor: orange,
-          fill: { target: 0, above: 'rgba(255,153,0,0.15)', below: 'rgba(192,57,43,0.08)' },
-        },
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      interaction: { mode: 'index' },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString('es-ES')} €` } }
-      },
-      scales: {
-        x: { grid: { color: border, drawBorder: false }, ticks: { maxRotation: 45 } },
-        y: { grid: { color: border, drawBorder: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'k €' }, min: 0 }
-      }
-    }
-  });
+  const totalSep = SEP_SELLER.reduce((a, b) => a + b, 0);
+  const totalDiff = totalSep - OBJETIVO * SEP_SELLER.length;
+  const tRow = document.createElement('tr');
+  tRow.innerHTML = `
+    <td class="td-total">Total 1–29</td>
+    <td class="td-total">${totalSep.toLocaleString('es-ES')} €</td>
+    <td class="td-total td-below">${totalDiff.toLocaleString('es-ES')} €</td>
+    <td class="td-total">${totalSep.toLocaleString('es-ES')} €</td>
+  `;
+  tbody.appendChild(tRow);
 }
 
 if (document.fonts) {
-  document.fonts.ready.then(() => { initCharts(); initChartsOct(); });
+  document.fonts.ready.then(() => { renderOct(); renderSep(); });
 } else {
-  initCharts();
-  initChartsOct();
+  renderOct(); renderSep();
 }
 </script>
 </body>
