@@ -394,15 +394,15 @@ tr:last-child td { border-bottom:none; }
     </div>
   </div>
 
-  <div class="section-hd">Ventas diarias Seller + Vendor · Octubre</div>
+  <div class="section-hd">Acumulado mensual · Octubre 2026</div>
   <div class="chart-card">
-    <div class="chart-title">Seller + Vendor diario · Octubre 2026</div>
-    <div class="chart-sub">Barras apiladas: naranja = Seller ES · azul = Vendor ES · Cifra sobre barra = total combinado · Línea = objetivo 33.333€</div>
+    <div class="chart-title">Acumulado Seller + Vendor · Octubre 2026</div>
+    <div class="chart-sub">Naranja = acumulado real día a día · Gris = proyección al ritmo actual · Rojo = objetivo 1.000.000€</div>
     <div class="chart-wrap"><canvas id="octDailyChart"></canvas></div>
     <div class="chart-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(255,153,0,0.85)"></div><span>Seller ES</span></div>
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(0,115,183,0.75)"></div><span>Vendor ES</span></div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div><span>Objetivo 33.333€</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>Acumulado real</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(160,160,160,0.7)"></div><span>Proyección pace actual</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div><span>Objetivo 1.000.000€</span></div>
     </div>
   </div>
 
@@ -559,78 +559,100 @@ function renderOct() {
     tbody.appendChild(tr);
   });
 
-  // Chart octubre — stacked bars Seller (naranja) + Vendor (azul) + línea objetivo
-  const labels = OCT_DATA.map(d => d.dia + ' oct');
-  const sellerData = OCT_DATA.map(d => d.seller || 0);
-  const vendorData = OCT_DATA.map(d => d.vendor || 0);
-  const combinedData = OCT_DATA.map((_, i) => sellerData[i] + vendorData[i]);
+  // Chart octubre — línea acumulado real + proyección mes completo + objetivo 1M
+  const allDays = Array.from({length: OCT_DIAS_MES}, (_, i) => i + 1);
+  const labels = allDays.map(d => d + ' oct');
 
-  const sellerColors = OCT_DATA.map(d =>
-    d.seller === null ? 'rgba(0,0,0,0)' :
-    d.definitivo ? 'rgba(255,153,0,0.85)' : 'rgba(255,153,0,0.3)'
-  );
-  const vendorColors = OCT_DATA.map(d =>
-    d.seller === null ? 'rgba(0,0,0,0)' :
-    d.definitivo ? 'rgba(0,115,183,0.75)' : 'rgba(0,115,183,0.25)'
-  );
+  // Acumulado real: suma Seller+Vendor día a día, null si no hay dato
+  let runningReal = 0;
+  const realAccum = allDays.map(d => {
+    const entry = OCT_DATA.find(e => e.dia === d);
+    if (!entry || entry.seller === null) return null;
+    runningReal += (entry.seller || 0) + (entry.vendor || 0);
+    return runningReal;
+  });
 
-  // Plugin inline: dibuja etiqueta combinada encima de cada barra apilada
-  const topLabelPlugin = {
-    id: 'topLabel',
-    afterDraw(chart) {
-      const ctx = chart.ctx;
-      const vendorMeta = chart.getDatasetMeta(1); // dataset 1 = Vendor ES (el más alto)
-      vendorMeta.data.forEach((bar, j) => {
-        const val = combinedData[j];
-        if (!val) return;
-        const x = bar.x;
-        const y = bar.y - 4;
-        const txt = val >= 1000 ? Math.round(val / 1000) + 'k€' : val + '€';
-        ctx.save();
-        ctx.font = '600 10px Poppins, sans-serif';
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#3F3F3F';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        ctx.fillText(txt, x, y);
-        ctx.restore();
-      });
-    }
-  };
+  // Último punto real conocido
+  const lastRealIdx = realAccum.reduce((last, v, i) => v !== null ? i : last, -1);
+  const lastRealVal = lastRealIdx >= 0 ? realAccum[lastRealIdx] : 0;
+  const daysWithData = lastRealIdx + 1;
+  const mediaDiaCombinada = daysWithData > 0 ? lastRealVal / daysWithData : OCT_OBJETIVO_DIARIO;
+
+  // Proyección: null hasta el penúltimo día real, empalma en el último día real y continúa
+  const proyAccum = allDays.map((d, i) => {
+    if (i < lastRealIdx) return null;
+    return lastRealVal + mediaDiaCombinada * (i - lastRealIdx);
+  });
+
+  // Objetivo horizontal = 1.000.000€
+  const objetivoLine = allDays.map(() => 1000000);
 
   new Chart(document.getElementById('octDailyChart'), {
-    plugins: [topLabelPlugin],
+    type: 'line',
     data: {
       labels,
       datasets: [
         {
-          type: 'bar', label: 'Seller ES',
-          data: sellerData,
-          backgroundColor: sellerColors, borderWidth: 0, borderRadius: 0, stack: 'combined',
+          label: 'Acumulado real',
+          data: realAccum,
+          borderColor: '#FF9900',
+          backgroundColor: 'rgba(255,153,0,0.10)',
+          borderWidth: 2.5,
+          pointRadius: allDays.map((_, i) => i <= lastRealIdx ? 3 : 0),
+          pointBackgroundColor: '#FF9900',
+          fill: true,
+          tension: 0.3,
+          spanGaps: false,
         },
         {
-          type: 'bar', label: 'Vendor ES',
-          data: vendorData,
-          backgroundColor: vendorColors, borderWidth: 0, borderRadius: 3, stack: 'combined',
+          label: 'Proyección pace actual',
+          data: proyAccum,
+          borderColor: 'rgba(140,140,140,0.65)',
+          backgroundColor: 'rgba(140,140,140,0.06)',
+          borderWidth: 2,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0.1,
+          spanGaps: false,
         },
         {
-          type: 'line', label: 'Objetivo',
-          data: Array(OCT_DATA.length).fill(OCT_OBJETIVO_DIARIO),
-          borderColor: 'rgba(192,57,43,0.7)', borderWidth: 2,
-          borderDash: [4, 3], pointRadius: 0, fill: false,
+          label: 'Objetivo 1.000.000€',
+          data: objetivoLine,
+          borderColor: 'rgba(192,57,43,0.60)',
+          borderWidth: 1.5,
+          borderDash: [3, 3],
+          pointRadius: 0,
+          fill: false,
         }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      layout: { padding: { top: 18 } },
-      interaction: { mode: 'index' },
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${(ctx.parsed.y||0).toLocaleString('es-ES')} €` } }
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.raw === null) return null;
+              return ' ' + ctx.dataset.label + ': ' + Math.round(ctx.raw).toLocaleString('es-ES') + ' €';
+            }
+          },
+          filter: item => item.raw !== null
+        }
       },
       scales: {
-        x: { stacked: true, grid: { color: 'var(--border)', drawBorder: false }, ticks: { maxRotation: 45 } },
-        y: { stacked: true, grid: { color: 'var(--border)', drawBorder: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'k €' }, min: 0 }
+        x: {
+          grid: { color: 'rgba(128,128,128,0.12)', drawBorder: false },
+          ticks: { maxRotation: 45, font: { size: 10 }, maxTicksLimit: 16 }
+        },
+        y: {
+          grid: { color: 'rgba(128,128,128,0.12)', drawBorder: false },
+          ticks: { callback: v => (v / 1000).toFixed(0) + 'k€', font: { size: 10 } },
+          min: 0,
+          max: 1100000
+        }
       }
     }
   });
