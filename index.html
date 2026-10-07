@@ -104,7 +104,7 @@ body {
 .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px; }
 .chart-title { font-size:12px; font-weight:600; color:var(--text); margin-bottom:4px; }
 .chart-sub { font-size:11px; color:var(--text-sec); margin-bottom:12px; }
-.chart-wrap { position:relative; height:180px; }
+.chart-wrap { position:relative; height:240px; }
 .chart-legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-size:11px; color:var(--text-sec); }
 .legend-item { display:flex; align-items:center; gap:5px; }
 .legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
@@ -373,7 +373,7 @@ tr:last-child td { border-bottom:none; }
 
   <div class="kpi-grid">
     <div class="kpi">
-      <div class="kpi-label">Acumulado Oct (Seller ES)</div>
+      <div class="kpi-label">Acumulado Oct (Seller + Vendor)</div>
       <div class="kpi-val" id="octKpiAcum">—</div>
       <div class="kpi-sub" id="octKpiAcumSub"></div>
     </div>
@@ -383,9 +383,9 @@ tr:last-child td { border-bottom:none; }
       <div class="kpi-sub" id="octKpiProjSub"></div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">PBDD Día 1 (6 oct)</div>
-      <div class="kpi-val green">59.954 €</div>
-      <div class="kpi-sub">598 uds · 510 pedidos · sin IVA</div>
+      <div class="kpi-label">PBDD Día 1 (6 oct) · Combinado</div>
+      <div class="kpi-val green">65.307 €</div>
+      <div class="kpi-sub">Seller 59.954 + Vendor 5.353 · 598 uds Seller · sin IVA</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Ads PBDD Día 1</div>
@@ -394,14 +394,14 @@ tr:last-child td { border-bottom:none; }
     </div>
   </div>
 
-  <div class="section-hd">Ventas diarias Seller ES · Octubre</div>
+  <div class="section-hd">Ventas diarias Seller + Vendor · Octubre</div>
   <div class="chart-card">
-    <div class="chart-title">Seller ES diario · Octubre 2026</div>
-    <div class="chart-sub">Barras sólidas = definitivas · Barras tenues = estimadas/en curso · Línea = objetivo 33.333€</div>
+    <div class="chart-title">Seller + Vendor diario · Octubre 2026</div>
+    <div class="chart-sub">Barras apiladas: naranja = Seller ES · azul = Vendor ES · Cifra sobre barra = total combinado · Línea = objetivo 33.333€</div>
     <div class="chart-wrap"><canvas id="octDailyChart"></canvas></div>
     <div class="chart-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>Ventas definitivas</span></div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--orange);opacity:.35"></div><span>Estimadas/en curso</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(255,153,0,0.85)"></div><span>Seller ES</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(0,115,183,0.75)"></div><span>Vendor ES</span></div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div><span>Objetivo 33.333€</span></div>
     </div>
   </div>
@@ -409,7 +409,7 @@ tr:last-child td { border-bottom:none; }
   <div class="section-hd">Tabla diaria · Octubre 2026</div>
   <div class="daily-table-wrap">
     <table>
-      <thead><tr><th>Día</th><th>Seller ES</th><th>Ads spend</th><th>ACoS</th><th>vs Objetivo</th><th>Acumulado</th></tr></thead>
+      <thead><tr><th>Día</th><th>Seller ES</th><th>Vendor ES</th><th>Combinado</th><th>Ads spend</th><th>ACoS</th><th>vs Objetivo</th><th>Acumulado</th></tr></thead>
       <tbody id="octTableBody"></tbody>
     </table>
   </div>
@@ -433,12 +433,16 @@ tr:last-child td { border-bottom:none; }
       <div class="ads-paused-note">ACoS sube durante PBDD (mayor competencia en subasta) — esperable. Días 1–5 ACoS 20–26% / PBDD D1 ACoS 23,2%, TACoS 8,7%.</div>
     </div>
     <div class="ads-ch">
-      <div class="ads-ch-header"><span class="ads-ch-name">Vendor ES</span><span class="ch-tag tag-warn">Sin datos Oct</span></div>
-      <div class="ads-paused-note" style="margin-top:0;padding-top:0;border-top:none">Datos Vendor de octubre pendientes de confirmar. Se actualizará en próxima sesión.</div>
+      <div class="ads-ch-header"><span class="ads-ch-name">Vendor ES</span><span class="ch-tag tag-prime">orderedRevenue</span></div>
+      <div class="ads-ch-row">
+        <div class="ads-ch-metric"><div class="ads-ch-val">28.415 €</div><div class="ads-ch-label">orderedRevenue días 1–6</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val">4.736 €</div><div class="ads-ch-label">Media diaria (días def.)</div></div>
+      </div>
+      <div class="ads-paused-note">Días 1-6 definitivos: 2.250+4.832+3.025+6.300+4.587+5.353€. Datos de Seller Ads (gasto, ACoS) aplican solo al canal Seller — Vendor no tiene campaña activa de Sponsored Ads propia en este período.</div>
     </div>
   </div>
 
-  <p class="footer">Seller ES ventas netas sin IVA · Datos de sesiones Roicos / MerchantSpring + Epinium · Actualización diaria durante octubre 2026</p>
+  <p class="footer">Seller ES + Vendor ES — ventas netas sin IVA · Objetivo mensual combinado 1.000.000 € · Datos: MerchantSpring · Actualización diaria</p>
 </div><!-- /panel-oct -->
 
 
@@ -459,19 +463,19 @@ const SEP_SELLER = [
 // null = sin dato aún | -1 = en curso (parcial, hoy)
 // Añadir filas a medida que cierren días
 const OCT_DATA = [
-  // { dia, seller, adSpend, adSales, acos, tacos, uds, pedidos, badge, definitivo }
-  { dia: 1,  seller: 22574, adSpend: 2750, adSales: 13737, acos: 20.0, tacos: 12.2, uds: 236, definitivo: true },
-  { dia: 2,  seller: 21533, adSpend: 2683, adSales: 10657, acos: 25.2, tacos: 12.5, uds: 220, definitivo: true },
-  { dia: 3,  seller: 22432, adSpend: 2899, adSales: 11001, acos: 26.4, tacos: 12.9, uds: 216, definitivo: true },
-  { dia: 4,  seller: 22048, adSpend: 2940, adSales: 11877, acos: 24.8, tacos: 13.3, uds: 225, definitivo: true },
-  { dia: 5,  seller: 28488, adSpend: 2927, adSales: 15156, acos: 19.3, tacos: 10.3, uds: 257, definitivo: true },
+  // { dia, seller, vendor, adSpend, adSales, acos, tacos, uds, pedidos, badge, definitivo }
+  { dia: 1,  seller: 22574, vendor: 2250,  adSpend: 2750, adSales: 13737, acos: 20.0, tacos: 12.2, uds: 236, definitivo: true },
+  { dia: 2,  seller: 21533, vendor: 4832,  adSpend: 2683, adSales: 10657, acos: 25.2, tacos: 12.5, uds: 220, definitivo: true },
+  { dia: 3,  seller: 22432, vendor: 3025,  adSpend: 2899, adSales: 11001, acos: 26.4, tacos: 12.9, uds: 216, definitivo: true },
+  { dia: 4,  seller: 22048, vendor: 6300,  adSpend: 2940, adSales: 11877, acos: 24.8, tacos: 13.3, uds: 225, definitivo: true },
+  { dia: 5,  seller: 28488, vendor: 4587,  adSpend: 2927, adSales: 15156, acos: 19.3, tacos: 10.3, uds: 257, definitivo: true },
   // Prime Big Deal Days
-  { dia: 6,  seller: 59954, adSpend: 5204, adSales: 22470, acos: 23.2, tacos: 8.7,
+  { dia: 6,  seller: 59954, vendor: 5353,  adSpend: 5204, adSales: 22470, acos: 23.2, tacos: 8.7,
     uds: 598, pedidos: 510, badge: 'PBDD D1', definitivo: true },
-  { dia: 7,  seller: 13061, adSpend: 22, adSales: 231, acos: 9.6, tacos: 0.2,
+  { dia: 7,  seller: 13061, vendor: 2068,  adSpend: 22, adSales: 231, acos: 9.6, tacos: 0.2,
     uds: 130, badge: 'PBDD D2 — parcial', definitivo: false },
   // Rellenar días siguientes aquí:
-  // { dia: 8,  seller: XXXXX, adSpend: XXXX, acos: XX.X, definitivo: true },
+  // { dia: 8,  seller: XXXXX, vendor: XXXX, adSpend: XXXX, acos: XX.X, definitivo: true },
 ];
 const OCT_OBJETIVO_DIARIO = 33333;
 const OCT_DIAS_MES = 31;
@@ -492,15 +496,17 @@ function renderOct() {
   const dias = OCT_DATA;
   const definitivos = dias.filter(d => d.definitivo && d.seller !== null);
   const totalSeller = definitivos.reduce((a, d) => a + d.seller, 0);
+  const totalVendor = definitivos.reduce((a, d) => a + (d.vendor || 0), 0);
+  const totalCombined = totalSeller + totalVendor;
   const numDef = definitivos.length;
-  const mediaDia = numDef > 0 ? Math.round(totalSeller / numDef) : 0;
-  const bestDay = numDef > 0 ? Math.max(...definitivos.map(d => d.seller)) : 0;
+  const mediaDia = numDef > 0 ? Math.round(totalCombined / numDef) : 0;
+  const bestDay = numDef > 0 ? Math.max(...definitivos.map(d => d.seller + (d.vendor || 0))) : 0;
   const diasRestantes = OCT_DIAS_MES - numDef;
-  const proj = numDef > 0 ? Math.round(totalSeller + mediaDia * diasRestantes) : 0;
-  const pct = (totalSeller / 1000000 * 100).toFixed(1);
+  const proj = numDef > 0 ? Math.round(totalCombined + mediaDia * diasRestantes) : 0;
+  const pct = (totalCombined / 1000000 * 100).toFixed(1);
   const lastDef = definitivos[definitivos.length - 1];
 
-  document.getElementById('octAmount').textContent = totalSeller.toLocaleString('es-ES') + ' €';
+  document.getElementById('octAmount').textContent = totalCombined.toLocaleString('es-ES') + ' €';
   document.getElementById('octBarFill').style.width = Math.min(pct, 100) + '%';
   document.getElementById('octBarPct').textContent = pct + '% del objetivo';
   document.getElementById('octBarGap').textContent =
@@ -511,63 +517,100 @@ function renderOct() {
   document.getElementById('octBestDay').textContent = bestDay.toLocaleString('es-ES') + ' €';
   document.getElementById('octAdKpi').textContent = lastDef ? lastDef.acos + '%' : '—';
 
-  document.getElementById('octKpiAcum').textContent = totalSeller.toLocaleString('es-ES') + ' €';
-  document.getElementById('octKpiAcumSub').textContent =
-    numDef > 0 ? numDef + ' días definitivos' : 'sin datos aún';
+  document.getElementById('octKpiAcum').textContent = totalCombined.toLocaleString('es-ES') + ' €';
+  document.getElementById('octKpiAcumSub').textContent = numDef > 0
+    ? 'Seller ' + totalSeller.toLocaleString('es-ES') + ' + Vendor ' + totalVendor.toLocaleString('es-ES') + ' €'
+    : 'sin datos aún';
   document.getElementById('octKpiProj').textContent =
     numDef > 0 ? proj.toLocaleString('es-ES') + ' €' : '—';
   document.getElementById('octKpiProjSub').textContent =
     numDef > 0 ? mediaDia.toLocaleString('es-ES') + ' €/día × ' + OCT_DIAS_MES + ' días' : 'pendiente';
 
   document.getElementById('oct-tab-sub').textContent =
-    'En curso · ' + totalSeller.toLocaleString('es-ES') + ' € · ' + numDef + ' días';
+    'En curso · ' + totalCombined.toLocaleString('es-ES') + ' € · ' + numDef + ' días';
 
-  // Tabla octubre
+  // Tabla octubre — columnas: Día, Seller ES, Vendor ES, Combinado, Ads spend, ACoS, vs Objetivo, Acumulado
   const tbody = document.getElementById('octTableBody');
   tbody.innerHTML = '';
   let accum = 0;
   OCT_DATA.forEach(d => {
     const tr = document.createElement('tr');
     const s = d.seller;
-    if (s !== null) accum += s;
-    const diff = s !== null ? s - OCT_OBJETIVO_DIARIO : null;
+    const v = d.vendor || 0;
+    const combined = s !== null ? s + v : null;
+    if (combined !== null) accum += combined;
+    const diff = combined !== null ? combined - OCT_OBJETIVO_DIARIO : null;
     const diffClass = diff === null ? '' : diff >= 0 ? 'td-above' : 'td-below';
     const diffTxt = diff === null ? '—' : (diff >= 0 ? '+' : '') + diff.toLocaleString('es-ES') + ' €';
     const badgeHtml = d.badge
       ? (d.definitivo ? `<span class="badge-prime">${d.badge}</span>` : `<span class="badge-wip">${d.badge}</span>`)
       : '';
-    const diaLabel = d.dia + ' oct' + badgeHtml;
+    const p = !d.definitivo ? 'td-partial' : '';
     tr.innerHTML = `
-      <td>${diaLabel}</td>
-      <td class="${s === null ? 'td-partial' : d.definitivo ? '' : 'td-partial'}">${s !== null ? s.toLocaleString('es-ES') + ' €' : '—'}</td>
-      <td class="${s === null ? 'td-partial' : ''}">${d.adSpend !== null ? d.adSpend.toLocaleString('es-ES') + ' €' : '—'}</td>
-      <td class="${s === null ? 'td-partial' : ''}">${d.acos !== null ? d.acos + '%' : '—'}</td>
+      <td>${d.dia} oct${badgeHtml}</td>
+      <td class="${p}">${s !== null ? s.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}">${v ? v.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}" style="font-weight:600">${combined !== null ? combined.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}">${d.adSpend !== undefined ? d.adSpend.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}">${d.acos !== undefined ? d.acos + '%' : '—'}</td>
       <td class="${diffClass}">${diffTxt}</td>
-      <td class="${s === null ? 'td-partial' : ''}">${s !== null ? accum.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}">${combined !== null ? accum.toLocaleString('es-ES') + ' €' : '—'}</td>
     `;
     tbody.appendChild(tr);
   });
 
-  // Chart octubre
+  // Chart octubre — stacked bars Seller (naranja) + Vendor (azul) + línea objetivo
   const labels = OCT_DATA.map(d => d.dia + ' oct');
-  const barColors = OCT_DATA.map(d =>
-    d.seller === null ? 'rgba(255,153,0,0)' :
-    d.definitivo ? 'rgba(255,153,0,0.75)' : 'rgba(255,153,0,0.3)'
+  const sellerData = OCT_DATA.map(d => d.seller || 0);
+  const vendorData = OCT_DATA.map(d => d.vendor || 0);
+  const combinedData = OCT_DATA.map((_, i) => sellerData[i] + vendorData[i]);
+
+  const sellerColors = OCT_DATA.map(d =>
+    d.seller === null ? 'rgba(0,0,0,0)' :
+    d.definitivo ? 'rgba(255,153,0,0.85)' : 'rgba(255,153,0,0.3)'
   );
-  const barBorder = OCT_DATA.map(d =>
-    d.seller === null ? 'transparent' :
-    d.definitivo ? '#FF9900' : 'rgba(255,153,0,0.5)'
+  const vendorColors = OCT_DATA.map(d =>
+    d.seller === null ? 'rgba(0,0,0,0)' :
+    d.definitivo ? 'rgba(0,115,183,0.75)' : 'rgba(0,115,183,0.25)'
   );
-  const chartData = OCT_DATA.map(d => d.seller || 0);
+
+  // Plugin inline: dibuja etiqueta combinada encima de cada barra apilada
+  const topLabelPlugin = {
+    id: 'topLabel',
+    afterDraw(chart) {
+      const ctx = chart.ctx;
+      const vendorMeta = chart.getDatasetMeta(1); // dataset 1 = Vendor ES (el más alto)
+      vendorMeta.data.forEach((bar, j) => {
+        const val = combinedData[j];
+        if (!val) return;
+        const x = bar.x;
+        const y = bar.y - 4;
+        const txt = val >= 1000 ? Math.round(val / 1000) + 'k€' : val + '€';
+        ctx.save();
+        ctx.font = '600 10px Poppins, sans-serif';
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#3F3F3F';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(txt, x, y);
+        ctx.restore();
+      });
+    }
+  };
 
   new Chart(document.getElementById('octDailyChart'), {
+    plugins: [topLabelPlugin],
     data: {
       labels,
       datasets: [
         {
           type: 'bar', label: 'Seller ES',
-          data: chartData,
-          backgroundColor: barColors, borderColor: barBorder, borderWidth: 1, borderRadius: 3,
+          data: sellerData,
+          backgroundColor: sellerColors, borderWidth: 0, borderRadius: 0, stack: 'combined',
+        },
+        {
+          type: 'bar', label: 'Vendor ES',
+          data: vendorData,
+          backgroundColor: vendorColors, borderWidth: 0, borderRadius: 3, stack: 'combined',
         },
         {
           type: 'line', label: 'Objetivo',
@@ -579,14 +622,15 @@ function renderOct() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { top: 18 } },
       interaction: { mode: 'index' },
       plugins: {
         legend: { display: false },
         tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${(ctx.parsed.y||0).toLocaleString('es-ES')} €` } }
       },
       scales: {
-        x: { grid: { color: 'var(--border)', drawBorder: false }, ticks: { maxRotation: 45 } },
-        y: { grid: { color: 'var(--border)', drawBorder: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'k €' }, min: 0 }
+        x: { stacked: true, grid: { color: 'var(--border)', drawBorder: false }, ticks: { maxRotation: 45 } },
+        y: { stacked: true, grid: { color: 'var(--border)', drawBorder: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'k €' }, min: 0 }
       }
     }
   });
