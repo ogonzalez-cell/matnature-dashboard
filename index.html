@@ -384,13 +384,13 @@ tr:last-child td { border-bottom:none; }
     </div>
     <div class="kpi">
       <div class="kpi-label">PBDD Día 1 (6 oct) · Combinado</div>
-      <div class="kpi-val green">65.307 €</div>
-      <div class="kpi-sub">Seller 59.954 + Vendor 5.353 · 598 uds Seller · sin IVA</div>
+      <div class="kpi-val green">63.035 €</div>
+      <div class="kpi-sub">Seller 57.682 + Vendor 5.353 · 595 uds Seller · sin IVA</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Ads PBDD Día 1</div>
-      <div class="kpi-val">ACoS 23,2%</div>
-      <div class="kpi-sub">Spend 5.204 € · Ad sales 22.470 €</div>
+      <div class="kpi-val">ACoS 18,4%</div>
+      <div class="kpi-sub">Spend 5.200 € · Ad sales 28.257 €</div>
     </div>
   </div>
 
@@ -430,7 +430,7 @@ tr:last-child td { border-bottom:none; }
         <span class="ads-pill" id="octAcosP">ACoS 21,6%</span>
         <span class="ads-pill" id="octRoasP">ROAS 4,6x</span>
       </div>
-      <div class="ads-paused-note">ACoS sube durante PBDD (mayor competencia en subasta) — esperable. Días 1–5 ACoS 20–26% / PBDD D1 ACoS 23,2% (TACoS 8,7%) / D2 ACoS 25,7% (TACoS 8,0%).</div>
+      <div class="ads-paused-note">ACoS sube durante PBDD (mayor competencia en subasta) — esperable. Días 1–5 ACoS 19–25% / PBDD D1 ACoS 18,4% (TACoS 9,0%) / D2 ACoS 25,7% (TACoS 8,0%).</div>
     </div>
     <div class="ads-ch">
       <div class="ads-ch-header"><span class="ads-ch-name">Vendor ES</span><span class="ch-tag" style="background:var(--surface-2);color:var(--text-sec);border:1px solid var(--border)">Sin campaña activa</span></div>
@@ -472,14 +472,14 @@ const SEP_SELLER = [
 // Añadir filas a medida que cierren días
 const OCT_DATA = [
   // { dia, seller, vendor, adSpend, adSales, acos, tacos, uds, pedidos, badge, definitivo }
-  { dia: 1,  seller: 22574, vendor: 2250,  adSpend: 2750, adSales: 13737, acos: 20.0, tacos: 12.2, uds: 236, definitivo: true },
-  { dia: 2,  seller: 21533, vendor: 4832,  adSpend: 2683, adSales: 10657, acos: 25.2, tacos: 12.5, uds: 220, definitivo: true },
-  { dia: 3,  seller: 22432, vendor: 3025,  adSpend: 2899, adSales: 11001, acos: 26.4, tacos: 12.9, uds: 216, definitivo: true },
-  { dia: 4,  seller: 22048, vendor: 6300,  adSpend: 2940, adSales: 11877, acos: 24.8, tacos: 13.3, uds: 225, definitivo: true },
-  { dia: 5,  seller: 28488, vendor: 4587,  adSpend: 2927, adSales: 15156, acos: 19.3, tacos: 10.3, uds: 257, definitivo: true },
+  { dia: 1,  seller: 22216, vendor: 2250,  adSpend: 2750, adSales: 13924, acos: 19.8, tacos: 12.4, uds: 235, definitivo: true },
+  { dia: 2,  seller: 20189, vendor: 4832,  adSpend: 2683, adSales: 11189, acos: 24.0, tacos: 13.3, uds: 210, definitivo: true },
+  { dia: 3,  seller: 21564, vendor: 3025,  adSpend: 2899, adSales: 11679, acos: 24.8, tacos: 13.4, uds: 214, definitivo: true },
+  { dia: 4,  seller: 21422, vendor: 6300,  adSpend: 2940, adSales: 12793, acos: 23.0, tacos: 13.7, uds: 225, definitivo: true },
+  { dia: 5,  seller: 26395, vendor: 4587,  adSpend: 2927, adSales: 15748, acos: 18.6, tacos: 11.1, uds: 257, definitivo: true },
   // Prime Big Deal Days
-  { dia: 6,  seller: 59954, vendor: 5353,  adSpend: 5204, adSales: 22470, acos: 23.2, tacos: 8.7,
-    uds: 598, pedidos: 510, badge: 'PBDD D1', definitivo: true },
+  { dia: 6,  seller: 57682, vendor: 5353,  adSpend: 5200, adSales: 28257, acos: 18.4, tacos: 9.0,
+    uds: 595, pedidos: 508, badge: 'PBDD D1', definitivo: true },
   { dia: 7,  seller: 54412, vendor: 6924,  adSpend: 4922, adSales: 19130, acos: 25.7, tacos: 8.0,
     uds: 547, badge: 'PBDD D2', definitivo: true },
   // Rellenar días siguientes aquí:
