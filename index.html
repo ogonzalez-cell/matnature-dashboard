@@ -212,9 +212,13 @@ tr:last-child td { border-bottom:none; }
     Septiembre 2026
     <span class="tab-sub">Cerrado · 757.956 €</span>
   </button>
-  <button class="tab-btn active" onclick="switchTab('oct')" id="tab-oct">
+  <button class="tab-btn" onclick="switchTab('oct')" id="tab-oct">
     Octubre 2026
-    <span class="tab-sub" id="oct-tab-sub">En curso · Prime Big Deal Days</span>
+    <span class="tab-sub">Cerrado · 825.764 €</span>
+  </button>
+  <button class="tab-btn active" onclick="switchTab('nov')" id="tab-nov">
+    Noviembre 2026
+    <span class="tab-sub" id="nov-tab-sub">En curso</span>
   </button>
 </div>
 
@@ -346,7 +350,7 @@ tr:last-child td { border-bottom:none; }
 
 
 <!-- ═══════════════════ PANEL OCTUBRE ═══════════════════ -->
-<div class="tab-panel active" id="panel-oct">
+<div class="tab-panel" id="panel-oct">
 
   <!-- Hero dinámico desde JS -->
   <div class="hero" id="octHero">
@@ -361,8 +365,8 @@ tr:last-child td { border-bottom:none; }
     </div>
   </div>
 
-  <div class="note-box note-prime" id="octNote">
-    <strong>Prime Big Deal Days 2026</strong> — 6 y 7 de octubre. Datos actualizados diariamente. Días sin confirmar marcados en cursiva.
+  <div class="note-box" id="octNote">
+    <strong>Octubre 2026 cerrado</strong> — Datos 1–31 oct (día 31 estimado). Seller ES ~757.046 € + Vendor ES ~68.718 €. Prime Big Deal Days: días 6 y 7.
   </div>
 
   <div class="strip" id="octStrip">
@@ -451,8 +455,80 @@ tr:last-child td { border-bottom:none; }
     </div>
   </div>
 
-  <p class="footer">Seller ES + Vendor ES — ventas netas sin IVA · Objetivo mensual combinado 1.000.000 € · Datos: MerchantSpring · Actualización diaria</p>
+  <p class="footer">Seller ES + Vendor ES — ventas netas sin IVA · Octubre 2026 cerrado definitivo · Objetivo mensual combinado 1.000.000 €</p>
 </div><!-- /panel-oct -->
+
+
+<!-- ═══════════════════ PANEL NOVIEMBRE ═══════════════════ -->
+<div class="tab-panel active" id="panel-nov">
+
+  <div class="hero" id="novHero">
+    <div class="hero-row">
+      <div class="hero-amount" id="novAmount">—</div>
+      <div class="hero-target-label">Objetivo <strong>1.000.000 €</strong></div>
+    </div>
+    <div class="bar-wrap"><div class="bar-fill" id="novBarFill" style="width:0%"></div></div>
+    <div class="bar-meta">
+      <span class="bar-pct" id="novBarPct">0,0%</span>
+      <span class="bar-gap" id="novBarGap"></span>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <strong>Noviembre 2026 en curso</strong> — Datos actualizados diariamente. Vendor con lag habitual de 24–48h. Días sin confirmar marcados en cursiva.
+  </div>
+
+  <div class="strip" id="novStrip">
+    <div class="strip-item"><div class="strip-num accent" id="novDiasDef">—</div><div class="strip-label">días con dato definitivo</div></div>
+    <div class="strip-item"><div class="strip-num sm" id="novMediaDia">—</div><div class="strip-label">media diaria (días def.)</div></div>
+    <div class="strip-item"><div class="strip-num sm" id="novBestDay">—</div><div class="strip-label">mejor día del mes</div></div>
+    <div class="strip-item"><div class="strip-num sm" id="novAdKpi">—</div><div class="strip-label">ACoS último día</div></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Acumulado Nov (Seller + Vendor)</div>
+      <div class="kpi-val" id="novKpiAcum">—</div>
+      <div class="kpi-sub" id="novKpiAcumSub"></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Proyección ritmo actual</div>
+      <div class="kpi-val amber" id="novKpiProj">—</div>
+      <div class="kpi-sub" id="novKpiProjSub"></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Black Friday</div>
+      <div class="kpi-val">27 nov</div>
+      <div class="kpi-sub">Cyber Monday 30 nov · Black Week 24–30 nov</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Oct cerrado vs objetivo</div>
+      <div class="kpi-val amber">82,2%</div>
+      <div class="kpi-sub">~825.764 € / 1.000.000 € — déficit ~174.236 €</div>
+    </div>
+  </div>
+
+  <div class="section-hd">Acumulado mensual · Noviembre 2026</div>
+  <div class="chart-card">
+    <div class="chart-title">Acumulado Seller + Vendor · Noviembre 2026</div>
+    <div class="chart-sub">Naranja = acumulado real · Rojo = ritmo objetivo (33.333€/día acumulado)</div>
+    <div class="chart-wrap"><canvas id="novDailyChart"></canvas></div>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>Acumulado real</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div><span>Objetivo acumulado (33.333€/día → 1M al mes)</span></div>
+    </div>
+  </div>
+
+  <div class="section-hd">Tabla diaria · Noviembre 2026</div>
+  <div class="daily-table-wrap">
+    <table>
+      <thead><tr><th>Día</th><th>Seller ES</th><th>Vendor ES</th><th>Combinado</th><th>Ads spend</th><th>ACoS</th><th>vs Objetivo</th><th>Acumulado</th></tr></thead>
+      <tbody id="novTableBody"></tbody>
+    </table>
+  </div>
+
+  <p class="footer">Seller ES + Vendor ES — ventas netas sin IVA · Objetivo mensual combinado 1.000.000 € · Datos: Epinium · Actualización diaria</p>
+</div><!-- /panel-nov -->
 
 
 <script>
@@ -467,6 +543,16 @@ const SEP_SELLER = [
   27075, 22901, 21139, 16659, 15429, 19057, 22305,
   19390, 21719, 21728, 18752, 17750, 21241, 29266, 36563
 ]; // 29 días definitivos (día 30 se estimó plano)
+
+// ── NOVIEMBRE ──
+const NOV_DATA = [
+  // { dia, seller, vendor, adSpend, adSales, acos, badge, definitivo }
+  { dia: 1, seller: 11265, vendor: 0, adSpend: 967,  acos: null, definitivo: false },
+  { dia: 2, seller: 11265, vendor: 0, adSpend: 966,  acos: null, definitivo: false },
+  // Rellenar días siguientes aquí:
+];
+const NOV_OBJETIVO_DIARIO = 33333;
+const NOV_DIAS_MES = 30;
 
 // ── OCTUBRE ──
 // null = sin dato aún | -1 = en curso (parcial, hoy)
@@ -506,8 +592,7 @@ const OCT_DATA = [
   { dia: 28, seller: 20461, vendor: 1763,  adSpend: 1727, adSales: 4783, acos: 36.1, tacos: 7.8, uds: 196, definitivo: true },
   { dia: 29, seller: 21861, vendor: 1070,  adSpend: 1755, adSales: 4286, acos: 41.0, tacos: 7.7, uds: 212, definitivo: true },
   { dia: 30, seller: 25229, vendor: 2497,  adSpend: 1739, adSales: 6643, acos: 26.2, tacos: 6.3, uds: 242, definitivo: true },
-  // Rellenar días siguientes aquí:
-  // { dia: 11,  seller: XXXXX, vendor: XXXX, adSpend: XXXX, acos: XX.X, definitivo: true },
+  { dia: 31, seller: 23150, vendor: 587,   adSpend: 1800, acos: 38.0, definitivo: true },
 ];
 const OCT_OBJETIVO_DIARIO = 33333;
 const OCT_DIAS_MES = 31;
@@ -519,8 +604,8 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
   document.getElementById('tab-' + tab).classList.add('active');
-  document.getElementById('headerPeriod').textContent =
-    tab === 'sep' ? 'Septiembre 2026 · Cierre definitivo' : 'Octubre 2026 · En curso · Prime Big Deal Days';
+  const labels = { sep: 'Septiembre 2026 · Cierre definitivo', oct: 'Octubre 2026 · Cerrado', nov: 'Noviembre 2026 · En curso' };
+  document.getElementById('headerPeriod').textContent = labels[tab] || '';
 }
 
 // ── Render octubre ──
@@ -760,10 +845,140 @@ function renderSep() {
   tbody.appendChild(tRow);
 }
 
+// ── Render noviembre ──
+function renderNov() {
+  const dias = NOV_DATA;
+  const definitivos = dias.filter(d => d.definitivo && d.seller !== null);
+  const parciales = dias.filter(d => !d.definitivo && d.seller !== null);
+  const allWithData = [...definitivos, ...parciales];
+  const totalSeller = allWithData.reduce((a, d) => a + (d.seller || 0), 0);
+  const totalVendor = allWithData.reduce((a, d) => a + (d.vendor || 0), 0);
+  const totalCombined = totalSeller + totalVendor;
+  const numDef = definitivos.length;
+  const numAll = allWithData.length;
+  const mediaDia = numDef > 0 ? Math.round(definitivos.reduce((a, d) => a + (d.seller || 0) + (d.vendor || 0), 0) / numDef)
+                              : numAll > 0 ? Math.round(totalCombined / numAll) : 0;
+  const bestDay = numAll > 0 ? Math.max(...allWithData.map(d => (d.seller || 0) + (d.vendor || 0))) : 0;
+  const diasRestantes = NOV_DIAS_MES - numAll;
+  const proj = numAll > 0 ? Math.round(totalCombined + mediaDia * diasRestantes) : 0;
+  const pct = (totalCombined / 1000000 * 100).toFixed(1);
+  const lastDef = dias.filter(d => d.acos !== null && d.acos !== undefined).slice(-1)[0];
+
+  document.getElementById('novAmount').textContent = totalCombined.toLocaleString('es-ES') + ' €';
+  document.getElementById('novBarFill').style.width = Math.min(pct, 100) + '%';
+  document.getElementById('novBarPct').textContent = pct + '% del objetivo';
+  document.getElementById('novBarGap').textContent = 'días: ' + numAll + ' · ' + diasRestantes + ' por correr';
+
+  document.getElementById('novDiasDef').textContent = numDef;
+  document.getElementById('novMediaDia').textContent = mediaDia.toLocaleString('es-ES') + ' €';
+  document.getElementById('novBestDay').textContent = bestDay.toLocaleString('es-ES') + ' €';
+  document.getElementById('novAdKpi').textContent = lastDef ? lastDef.acos + '%' : '—';
+
+  document.getElementById('novKpiAcum').textContent = totalCombined.toLocaleString('es-ES') + ' €';
+  document.getElementById('novKpiAcumSub').textContent = numAll > 0
+    ? 'Seller ' + totalSeller.toLocaleString('es-ES') + ' + Vendor ' + totalVendor.toLocaleString('es-ES') + ' €'
+    : 'sin datos aún';
+  document.getElementById('novKpiProj').textContent = numAll > 0 ? proj.toLocaleString('es-ES') + ' €' : '—';
+  document.getElementById('novKpiProjSub').textContent = numAll > 0 ? mediaDia.toLocaleString('es-ES') + ' €/día × ' + NOV_DIAS_MES + ' días' : 'pendiente';
+
+  document.getElementById('nov-tab-sub').textContent =
+    'En curso · ' + totalCombined.toLocaleString('es-ES') + ' € · ' + numAll + ' días';
+
+  // Tabla noviembre
+  const tbody = document.getElementById('novTableBody');
+  tbody.innerHTML = '';
+  let accum = 0;
+  NOV_DATA.forEach(d => {
+    const tr = document.createElement('tr');
+    const s = d.seller;
+    const v = d.vendor || 0;
+    const combined = s !== null ? s + v : null;
+    if (combined !== null) accum += combined;
+    const diff = combined !== null ? combined - NOV_OBJETIVO_DIARIO : null;
+    const diffClass = diff === null ? '' : diff >= 0 ? 'td-above' : 'td-below';
+    const diffTxt = diff === null ? '—' : (diff >= 0 ? '+' : '') + diff.toLocaleString('es-ES') + ' €';
+    const badgeHtml = d.badge ? `<span class="badge-prime">${d.badge}</span>` : '';
+    const p = !d.definitivo ? 'td-partial' : '';
+    tr.innerHTML = `
+      <td>${d.dia} nov${badgeHtml}</td>
+      <td class="${p}">${s !== null ? s.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}">${v ? v.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}" style="font-weight:600">${combined !== null ? combined.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}">${d.adSpend !== undefined ? d.adSpend.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}">${d.acos !== null && d.acos !== undefined ? d.acos + '%' : '—'}</td>
+      <td class="${diffClass}">${diffTxt}</td>
+      <td class="${p}">${combined !== null ? accum.toLocaleString('es-ES') + ' €' : '—'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Chart noviembre
+  const allDays = Array.from({length: NOV_DIAS_MES}, (_, i) => i + 1);
+  const labels = allDays.map(d => d + ' nov');
+  let runningReal = 0;
+  const realAccum = allDays.map(d => {
+    const entry = NOV_DATA.find(e => e.dia === d);
+    if (!entry || entry.seller === null) return null;
+    runningReal += (entry.seller || 0) + (entry.vendor || 0);
+    return runningReal;
+  });
+  const objetivoLine = allDays.map(d => d * NOV_OBJETIVO_DIARIO);
+
+  new Chart(document.getElementById('novDailyChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Acumulado real',
+          data: realAccum,
+          borderColor: '#FF9900',
+          backgroundColor: 'rgba(255,153,0,0.10)',
+          borderWidth: 2.5,
+          pointRadius: allDays.map((_, i) => realAccum[i] !== null ? 3 : 0),
+          pointBackgroundColor: '#FF9900',
+          fill: true,
+          tension: 0.3,
+          spanGaps: false,
+        },
+        {
+          label: 'Objetivo 1.000.000€',
+          data: objetivoLine,
+          borderColor: 'rgba(192,57,43,0.60)',
+          borderWidth: 1.5,
+          borderDash: [3, 3],
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.raw === null) return null;
+              return ' ' + ctx.dataset.label + ': ' + Math.round(ctx.raw).toLocaleString('es-ES') + ' €';
+            }
+          },
+          filter: item => item.raw !== null
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(128,128,128,0.12)', drawBorder: false }, ticks: { maxRotation: 45, font: { size: 14 }, maxTicksLimit: 16 } },
+        y: { grid: { color: 'rgba(128,128,128,0.12)', drawBorder: false }, ticks: { callback: v => (v / 1000).toFixed(0) + 'k€', font: { size: 14 } }, min: 0 }
+      }
+    }
+  });
+}
+
 if (document.fonts) {
-  document.fonts.ready.then(() => { renderOct(); renderSep(); });
+  document.fonts.ready.then(() => { renderNov(); renderOct(); renderSep(); });
 } else {
-  renderOct(); renderSep();
+  renderNov(); renderOct(); renderSep();
 }
 </script>
 </body>
