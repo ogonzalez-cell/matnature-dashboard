@@ -532,19 +532,19 @@ tr:last-child td { border-bottom:none; }
     <div class="ads-ch">
       <div class="ads-ch-header"><span class="ads-ch-name">Seller ES</span><span class="ch-tag tag-ok">Activo</span></div>
       <div class="ads-ch-row">
-        <div class="ads-ch-metric"><div class="ads-ch-val" id="novAdsSpend">1.933 €</div><div class="ads-ch-label">Inversión (días 1–2)</div></div>
-        <div class="ads-ch-metric"><div class="ads-ch-val" id="novAdsSales">6.493 €</div><div class="ads-ch-label">Ventas por ads</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novAdsSpend">—</div><div class="ads-ch-label">Inversión (calculando…)</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novAdsSales">—</div><div class="ads-ch-label">Ventas por ads</div></div>
       </div>
       <div class="ads-ch-row">
-        <div class="ads-ch-metric"><div class="ads-ch-val" id="novTacos">8,6%</div><div class="ads-ch-label">TACoS medio</div></div>
-        <div class="ads-ch-metric"><div class="ads-ch-val" id="novImpr">316.727</div><div class="ads-ch-label">Impresiones (días 1–2)</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novTacos">—</div><div class="ads-ch-label">TACoS medio</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novImpr">316.727</div><div class="ads-ch-label">Impresiones (calculando…)</div></div>
       </div>
       <div class="ads-ch-pills">
-        <span class="ads-pill" id="novAcosP">ACoS 29,8%</span>
-        <span class="ads-pill" id="novRoasP">ROAS 3,4x</span>
+        <span class="ads-pill" id="novAcosP">ACoS —</span>
+        <span class="ads-pill" id="novRoasP">ROAS —</span>
         <span class="ads-pill">2.422 clics</span>
       </div>
-      <div class="ads-paused-note">ACoS días 1–2 elevado por lag de atribución (ventas de ads pueden registrarse con 24–48h de retraso). Black Week Amazon arranca el 19 nov.</div>
+      <div class="ads-paused-note">ACoS de los primeros días suele ser elevado por lag de atribución (ventas pueden registrarse con 24–48h de retraso). Black Week Amazon arranca el 19 nov.</div>
     </div>
     <div class="ads-ch">
       <div class="ads-ch-header"><span class="ads-ch-name">Vendor ES</span><span class="ch-tag tag-ok">Activo</span></div>
@@ -963,6 +963,37 @@ function renderNov() {
     return runningReal;
   });
   const objetivoLine = allDays.map(d => d * NOV_OBJETIVO_DIARIO);
+
+  // ── Publicidad Noviembre — acumulado dinámico desde NOV_DATA ──
+  const adsWithSpend = NOV_DATA.filter(d => (d.adSpend || 0) > 0);
+  const totalAdSpendNov = NOV_DATA.reduce((a, d) => a + (d.adSpend || 0), 0);
+  const totalAdSalesNov = NOV_DATA.reduce((a, d) => a + (d.adSales || 0), 0);
+  const adsLastDay = adsWithSpend.length > 0 ? Math.max(...adsWithSpend.map(d => d.dia)) : 0;
+  const adsRange = adsLastDay > 1 ? 'días 1–' + adsLastDay : adsLastDay === 1 ? 'día 1' : '—';
+
+  const daysWithBothNov = NOV_DATA.filter(d => (d.adSpend || 0) > 0 && (d.adSales || 0) > 0);
+  const spendForAcosNov = daysWithBothNov.reduce((a, d) => a + d.adSpend, 0);
+  const salesForAcosNov = daysWithBothNov.reduce((a, d) => a + d.adSales, 0);
+  const acosNov = salesForAcosNov > 0 ? (spendForAcosNov / salesForAcosNov * 100).toFixed(1) : null;
+  const roasNov = salesForAcosNov > 0 ? (salesForAcosNov / spendForAcosNov).toFixed(1) : null;
+  const tacosNov = totalCombined > 0 && totalAdSpendNov > 0 ? (totalAdSpendNov / totalCombined * 100).toFixed(1) : null;
+
+  const eNovSpend = document.getElementById('novAdsSpend');
+  const eNovSales = document.getElementById('novAdsSales');
+  const eNovTacos = document.getElementById('novTacos');
+  const eNovImpr  = document.getElementById('novImpr');
+  const eNovAcos  = document.getElementById('novAcosP');
+  const eNovRoas  = document.getElementById('novRoasP');
+
+  if (eNovSpend) {
+    eNovSpend.textContent = totalAdSpendNov.toLocaleString('es-ES') + ' €';
+    if (eNovSpend.nextElementSibling) eNovSpend.nextElementSibling.textContent = 'Inversión (' + adsRange + ')';
+  }
+  if (eNovSales) eNovSales.textContent = totalAdSalesNov > 0 ? totalAdSalesNov.toLocaleString('es-ES') + ' €' : '—';
+  if (eNovTacos) eNovTacos.textContent = tacosNov ? tacosNov.replace('.', ',') + '%' : '—';
+  if (eNovImpr  && eNovImpr.nextElementSibling) eNovImpr.nextElementSibling.textContent = 'Impresiones (' + adsRange + ')';
+  if (eNovAcos) eNovAcos.textContent = acosNov ? 'ACoS ' + acosNov.replace('.', ',') + '%' : 'ACoS —';
+  if (eNovRoas) eNovRoas.textContent = roasNov ? 'ROAS ' + roasNov.replace('.', ',') + 'x' : 'ROAS —';
 
   new Chart(document.getElementById('novDailyChart'), {
     type: 'line',
