@@ -537,29 +537,28 @@ tr:last-child td { border-bottom:none; }
       </div>
       <div class="ads-ch-row">
         <div class="ads-ch-metric"><div class="ads-ch-val" id="novTacos">—</div><div class="ads-ch-label">TACoS medio</div></div>
-        <div class="ads-ch-metric"><div class="ads-ch-val" id="novImpr">316.727</div><div class="ads-ch-label">Impresiones (calculando…)</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novImpr">—</div><div class="ads-ch-label" id="novImprLabel">Impresiones (calculando…)</div></div>
       </div>
       <div class="ads-ch-pills">
         <span class="ads-pill" id="novAcosP">ACoS —</span>
         <span class="ads-pill" id="novRoasP">ROAS —</span>
-        <span class="ads-pill">2.422 clics</span>
+        <span class="ads-pill" id="novClicksP">— clics</span>
       </div>
       <div class="ads-paused-note">ACoS de los primeros días suele ser elevado por lag de atribución (ventas pueden registrarse con 24–48h de retraso). Black Week Amazon arranca el 19 nov.</div>
     </div>
     <div class="ads-ch">
       <div class="ads-ch-header"><span class="ads-ch-name">Vendor ES</span><span class="ch-tag tag-ok">Activo</span></div>
       <div class="ads-ch-row">
-        <div class="ads-ch-metric"><div class="ads-ch-val">97 €</div><div class="ads-ch-label">Inversión (días 1–2)</div></div>
-        <div class="ads-ch-metric"><div class="ads-ch-val">182 €</div><div class="ads-ch-label">Ventas atribuidas</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novVendorSpend">—</div><div class="ads-ch-label" id="novVendorSpendLabel">Inversión (calculando…)</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novVendorSales">—</div><div class="ads-ch-label">Ventas atribuidas</div></div>
       </div>
       <div class="ads-ch-row">
-        <div class="ads-ch-metric"><div class="ads-ch-val">9.448</div><div class="ads-ch-label">Impresiones</div></div>
-        <div class="ads-ch-metric"><div class="ads-ch-val">89</div><div class="ads-ch-label">Clics</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novVendorImpr">—</div><div class="ads-ch-label">Impresiones</div></div>
+        <div class="ads-ch-metric"><div class="ads-ch-val" id="novVendorClicks">—</div><div class="ads-ch-label">Clics</div></div>
       </div>
       <div class="ads-ch-pills">
-        <span class="ads-pill">8 campañas SP</span>
-        <span class="ads-pill">ACoS 53,5%</span>
-        <span class="ads-pill ads-pill-muted">Datos: Epinium / MATNATURE</span>
+        <span class="ads-pill" id="novVendorAcos">ACoS —</span>
+        <span class="ads-pill ads-pill-muted">Datos: MerchantSpring / MATNATURE</span>
       </div>
       <div class="ads-paused-note">ACoS Vendor alto en primeros días — lag de atribución habitual en Vendor (14–30 días). Evaluar en 2 semanas con datos maduros.</div>
     </div>
@@ -587,8 +586,8 @@ const NOV_DATA = [
   // { dia, seller, vendor, adSpend, adSales, acos, badge, definitivo }
   { dia: 1, seller: 20829, vendor: 0, adSpend: 1913, acos: null, definitivo: true },
   { dia: 2, seller: 33477, vendor: 0,    adSpend: 1902, acos: null, definitivo: true },
-  { dia: 3, seller: 30509, vendor: 4539, adSpend: 1867, adSales: 10507, acos: 17.8, tacos: 5.3, uds: 329, definitivo: true },
-  { dia: 4, seller: 23634, vendor: 3538, adSpend: 1957, adSales: 4473,  acos: 43.7, tacos: 7.2, uds: 258, definitivo: true },
+  { dia: 3, seller: 30509, vendor: 4539, adSpend: 1808, adSales: 10410, vendorAdSpend: 59,  vendorAdSales: 97,  imprSeller: 287763, clicksSeller: 2312, imprVendor: 4335,  clicksVendor: 61,  acos: 17.4, tacos: 5.3, uds: 329, definitivo: true },
+  { dia: 4, seller: 23634, vendor: 3538, adSpend: 1819, adSales: 4120,  vendorAdSpend: 138, vendorAdSales: 353, imprSeller: 312631, clicksSeller: 2263, imprVendor: 15291, clicksVendor: 159, acos: 44.1, tacos: 7.2, uds: 258, definitivo: true },
   { dia: 5, seller: 3562,  vendor: 0,    adSpend: 0,    acos: null, definitivo: false },
 ];
 const NOV_OBJETIVO_DIARIO = 33333;
@@ -964,36 +963,54 @@ function renderNov() {
   });
   const objetivoLine = allDays.map(d => d * NOV_OBJETIVO_DIARIO);
 
-  // ── Publicidad Noviembre — acumulado dinámico desde NOV_DATA ──
-  const adsWithSpend = NOV_DATA.filter(d => (d.adSpend || 0) > 0);
-  const totalAdSpendNov = NOV_DATA.reduce((a, d) => a + (d.adSpend || 0), 0);
-  const totalAdSalesNov = NOV_DATA.reduce((a, d) => a + (d.adSales || 0), 0);
-  const adsLastDay = adsWithSpend.length > 0 ? Math.max(...adsWithSpend.map(d => d.dia)) : 0;
-  const adsRange = adsLastDay > 1 ? 'días 1–' + adsLastDay : adsLastDay === 1 ? 'día 1' : '—';
+  // ── Publicidad Noviembre — 100% dinámico desde NOV_DATA ──
+  // Seller (adSpend/adSales = seller-only; impresiones y clics de imprSeller/clicksSeller)
+  const sellerAdsActive = NOV_DATA.filter(d => (d.adSpend || 0) > 0);
+  const sellerSpendTotal = NOV_DATA.reduce((a, d) => a + (d.adSpend || 0), 0);
+  const sellerSalesTotal = NOV_DATA.reduce((a, d) => a + (d.adSales || 0), 0);
+  const sellerImprTotal  = NOV_DATA.reduce((a, d) => a + (d.imprSeller || 0), 0);
+  const sellerClkTotal   = NOV_DATA.reduce((a, d) => a + (d.clicksSeller || 0), 0);
+  const sellerLastDay    = sellerAdsActive.length > 0 ? Math.max(...sellerAdsActive.map(d => d.dia)) : 0;
+  const sellerRange      = sellerLastDay > 1 ? 'días 1–' + sellerLastDay : sellerLastDay === 1 ? 'día 1' : '—';
 
-  const daysWithBothNov = NOV_DATA.filter(d => (d.adSpend || 0) > 0 && (d.adSales || 0) > 0);
-  const spendForAcosNov = daysWithBothNov.reduce((a, d) => a + d.adSpend, 0);
-  const salesForAcosNov = daysWithBothNov.reduce((a, d) => a + d.adSales, 0);
-  const acosNov = salesForAcosNov > 0 ? (spendForAcosNov / salesForAcosNov * 100).toFixed(1) : null;
-  const roasNov = salesForAcosNov > 0 ? (salesForAcosNov / spendForAcosNov).toFixed(1) : null;
-  const tacosNov = totalCombined > 0 && totalAdSpendNov > 0 ? (totalAdSpendNov / totalCombined * 100).toFixed(1) : null;
+  const sellerDaysAcos   = NOV_DATA.filter(d => (d.adSpend || 0) > 0 && (d.adSales || 0) > 0);
+  const sellerSpendAcos  = sellerDaysAcos.reduce((a, d) => a + d.adSpend, 0);
+  const sellerSalesAcos  = sellerDaysAcos.reduce((a, d) => a + d.adSales, 0);
+  const sellerAcos       = sellerSalesAcos > 0 ? (sellerSpendAcos / sellerSalesAcos * 100).toFixed(1) : null;
+  const sellerRoas       = sellerSalesAcos > 0 ? (sellerSalesAcos / sellerSpendAcos).toFixed(1) : null;
 
-  const eNovSpend = document.getElementById('novAdsSpend');
-  const eNovSales = document.getElementById('novAdsSales');
-  const eNovTacos = document.getElementById('novTacos');
-  const eNovImpr  = document.getElementById('novImpr');
-  const eNovAcos  = document.getElementById('novAcosP');
-  const eNovRoas  = document.getElementById('novRoasP');
+  // Vendor (vendorAdSpend/vendorAdSales)
+  const vendorAdsActive  = NOV_DATA.filter(d => (d.vendorAdSpend || 0) > 0);
+  const vendorSpendTotal = NOV_DATA.reduce((a, d) => a + (d.vendorAdSpend || 0), 0);
+  const vendorSalesTotal = NOV_DATA.reduce((a, d) => a + (d.vendorAdSales || 0), 0);
+  const vendorImprTotal  = NOV_DATA.reduce((a, d) => a + (d.imprVendor || 0), 0);
+  const vendorClkTotal   = NOV_DATA.reduce((a, d) => a + (d.clicksVendor || 0), 0);
+  const vendorLastDay    = vendorAdsActive.length > 0 ? Math.max(...vendorAdsActive.map(d => d.dia)) : 0;
+  const vendorRange      = vendorLastDay > 1 ? 'días 1–' + vendorLastDay : vendorLastDay === 1 ? 'día ' + vendorLastDay : '—';
+  const vendorAcos       = vendorSalesTotal > 0 ? (vendorSpendTotal / vendorSalesTotal * 100).toFixed(1) : null;
 
-  if (eNovSpend) {
-    eNovSpend.textContent = totalAdSpendNov.toLocaleString('es-ES') + ' €';
-    if (eNovSpend.nextElementSibling) eNovSpend.nextElementSibling.textContent = 'Inversión (' + adsRange + ')';
-  }
-  if (eNovSales) eNovSales.textContent = totalAdSalesNov > 0 ? totalAdSalesNov.toLocaleString('es-ES') + ' €' : '—';
-  if (eNovTacos) eNovTacos.textContent = tacosNov ? tacosNov.replace('.', ',') + '%' : '—';
-  if (eNovImpr  && eNovImpr.nextElementSibling) eNovImpr.nextElementSibling.textContent = 'Impresiones (' + adsRange + ')';
-  if (eNovAcos) eNovAcos.textContent = acosNov ? 'ACoS ' + acosNov.replace('.', ',') + '%' : 'ACoS —';
-  if (eNovRoas) eNovRoas.textContent = roasNov ? 'ROAS ' + roasNov.replace('.', ',') + 'x' : 'ROAS —';
+  // TACoS combinado = (seller spend + vendor spend) / total ventas (seller + vendor)
+  const combinedSpendTotal = sellerSpendTotal + vendorSpendTotal;
+  const tacosNov = totalCombined > 0 && combinedSpendTotal > 0 ? (combinedSpendTotal / totalCombined * 100).toFixed(1) : null;
+
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString('es-ES');
+
+  // Seller card
+  if ($('novAdsSpend')) { $('novAdsSpend').textContent = sellerSpendTotal > 0 ? fmt(sellerSpendTotal) + ' €' : '—'; $('novAdsSpend').nextElementSibling.textContent = 'Inversión (' + sellerRange + ')'; }
+  if ($('novAdsSales')) $('novAdsSales').textContent = sellerSalesTotal > 0 ? fmt(sellerSalesTotal) + ' €' : '—';
+  if ($('novTacos'))    $('novTacos').textContent    = tacosNov ? tacosNov.replace('.', ',') + '%' : '—';
+  if ($('novImpr'))     { $('novImpr').textContent = sellerImprTotal > 0 ? fmt(sellerImprTotal) : '—'; $('novImprLabel').textContent = 'Impresiones (' + sellerRange + ')'; }
+  if ($('novAcosP'))    $('novAcosP').textContent   = sellerAcos ? 'ACoS ' + sellerAcos.replace('.', ',') + '%' : 'ACoS —';
+  if ($('novRoasP'))    $('novRoasP').textContent   = sellerRoas ? 'ROAS ' + sellerRoas.replace('.', ',') + 'x' : 'ROAS —';
+  if ($('novClicksP'))  $('novClicksP').textContent = sellerClkTotal > 0 ? fmt(sellerClkTotal) + ' clics' : '— clics';
+
+  // Vendor card
+  if ($('novVendorSpend'))  { $('novVendorSpend').textContent = vendorSpendTotal > 0 ? fmt(vendorSpendTotal) + ' €' : '—'; $('novVendorSpendLabel').textContent = 'Inversión (' + vendorRange + ')'; }
+  if ($('novVendorSales'))  $('novVendorSales').textContent  = vendorSalesTotal > 0 ? fmt(vendorSalesTotal) + ' €' : '—';
+  if ($('novVendorImpr'))   $('novVendorImpr').textContent   = vendorImprTotal > 0 ? fmt(vendorImprTotal) : '—';
+  if ($('novVendorClicks')) $('novVendorClicks').textContent = vendorClkTotal > 0 ? fmt(vendorClkTotal) : '—';
+  if ($('novVendorAcos'))   $('novVendorAcos').textContent   = vendorAcos ? 'ACoS ' + vendorAcos.replace('.', ',') + '%' : 'ACoS —';
 
   new Chart(document.getElementById('novDailyChart'), {
     type: 'line',
