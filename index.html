@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!doctype html>
 <html lang="es">
 <head>
@@ -522,7 +521,7 @@ tr:last-child td { border-bottom:none; }
   <div class="section-hd">Tabla diaria · Noviembre 2026</div>
   <div class="daily-table-wrap">
     <table>
-      <thead><tr><th>Día</th><th>Seller ES</th><th>Vendor ES</th><th>Combinado</th><th>Ads spend</th><th>ACoS</th><th>vs Objetivo</th><th>Acumulado</th></tr></thead>
+      <thead><tr><th>Día</th><th>Seller ES</th><th>Vendor ES</th><th>COGS Vendor</th><th>Combinado</th><th>Ads spend</th><th>ACoS</th><th>vs Objetivo</th><th>Acumulado</th></tr></thead>
       <tbody id="novTableBody"></tbody>
     </table>
   </div>
@@ -583,19 +582,19 @@ const SEP_SELLER = [
 
 // ── NOVIEMBRE ──
 const NOV_DATA = [
-  // { dia, seller, vendor, adSpend, adSales, acos, badge, definitivo }
-  { dia: 1, seller: 17373, vendor: 0,    adSpend: 1846, vendorAdSpend: 67,  acos: null, definitivo: true },
-  { dia: 2, seller: 26633, vendor: 4397, adSpend: 1836, vendorAdSpend: 64,  acos: null, definitivo: true },
-  { dia: 3, seller: 30509, vendor: 4539, adSpend: 1808, adSales: 10410, vendorAdSpend: 59,  vendorAdSales: 97,  imprSeller: 287763, clicksSeller: 2312, imprVendor: 4335,  clicksVendor: 61,  acos: 17.4, tacos: 5.3, uds: 329, definitivo: true },
-  { dia: 4, seller: 23634, vendor: 3538, adSpend: 1819, adSales: 4120,  vendorAdSpend: 138, vendorAdSales: 353, imprSeller: 312631, clicksSeller: 2263, imprVendor: 15291, clicksVendor: 159, acos: 44.1, tacos: 7.2, uds: 258, definitivo: true },
-  { dia: 5, seller: 26900, vendor: 3500, adSpend: 1764, adSales: 4933, vendorAdSpend: 154, vendorAdSales: 1017, imprSeller: 298327, clicksSeller: 2177, imprVendor: 21980, clicksVendor: 190, acos: 35.8, tacos: 6.3, uds: 277, definitivo: true },
-  { dia: 6, seller: 23463, vendor: 1345, adSpend: 1748, adSales: 6911, vendorAdSpend: 141, vendorAdSales: 0, imprSeller: 306174, clicksSeller: 2175, imprVendor: 29039, clicksVendor: 170, acos: 25.3, tacos: 7.6, uds: 222, definitivo: true },
-  { dia: 7, seller: 19540, vendor: 1422, adSpend: 1786, adSales: 5440, vendorAdSpend: 156, vendorAdSales: 232, imprSeller: 309633, clicksSeller: 2225, imprVendor: 39712, clicksVendor: 182, acos: 32.8, tacos: 9.3, uds: 199, definitivo: true },
-  { dia: 8, seller: 24081, vendor: 3386, adSpend: 1824, adSales: 5253, vendorAdSpend: 187, vendorAdSales: 438, imprSeller: 275708, clicksSeller: 2305, imprVendor: 39679, clicksVendor: 233, acos: 35.3, tacos: 7.3, uds: 257, definitivo: true },
-  { dia: 9, seller: 33898, vendor: 3106, adSpend: 1833, adSales: 9244, vendorAdSpend: 181, vendorAdSales: 197, imprSeller: 280639, clicksSeller: 2413, imprVendor: 36082, clicksVendor: 227, acos: 21.3, tacos: 5.4, uds: 339, definitivo: true },
-  { dia: 10, seller: 28626, vendor: 11045, adSpend: 1822, adSales: 7806, vendorAdSpend: 225, vendorAdSales: 568, imprSeller: 317405, clicksSeller: 2239, imprVendor: 42365, clicksVendor: 366, acos: 24.4, tacos: 5.2, uds: 373, definitivo: true },
-  { dia: 11, seller: 26875, vendor: 14425, adSpend: 1862, adSales: 6433, vendorAdSpend: 263, vendorAdSales: 1194, imprSeller: 318225, clicksSeller: 2317, imprVendor: 69517, clicksVendor: 486, acos: 27.9, tacos: 5.1, uds: 408, definitivo: true },
-  { dia: 12, seller: 24602, vendor: 16002, adSpend: 1813, adSales: 5783, vendorAdSpend: 264, vendorAdSales: 2069, imprSeller: 336404, clicksSeller: 2135, imprVendor: 72371, clicksVendor: 457, acos: 26.5, tacos: 5.1, uds: 415, definitivo: true },
+  // { dia, seller, vendor, adSpend, adSales, acos, badge, definitivo, vendorCogs }
+  { dia: 1, seller: 17373, vendor: 0,    adSpend: 1846, vendorAdSpend: 67,  acos: null, vendorCogs: 0,    definitivo: true },
+  { dia: 2, seller: 26633, vendor: 4397, adSpend: 1836, vendorAdSpend: 64,  acos: null, vendorCogs: 4397, definitivo: true },
+  { dia: 3, seller: 30509, vendor: 4539, adSpend: 1808, adSales: 10410, vendorAdSpend: 59,  vendorAdSales: 97,  imprSeller: 287763, clicksSeller: 2312, imprVendor: 4335,  clicksVendor: 61,  acos: 17.4, tacos: 5.3, uds: 329, vendorCogs: 2352, definitivo: true },
+  { dia: 4, seller: 23634, vendor: 3538, adSpend: 1819, adSales: 4120,  vendorAdSpend: 138, vendorAdSales: 353, imprSeller: 312631, clicksSeller: 2263, imprVendor: 15291, clicksVendor: 159, acos: 44.1, tacos: 7.2, uds: 258, vendorCogs: 2607, definitivo: true },
+  { dia: 5, seller: 26900, vendor: 3500, adSpend: 1764, adSales: 4933, vendorAdSpend: 154, vendorAdSales: 1017, imprSeller: 298327, clicksSeller: 2177, imprVendor: 21980, clicksVendor: 190, acos: 35.8, tacos: 6.3, uds: 277, vendorCogs: 1345, definitivo: true },
+  { dia: 6, seller: 23463, vendor: 1345, adSpend: 1748, adSales: 6911, vendorAdSpend: 141, vendorAdSales: 0, imprSeller: 306174, clicksSeller: 2175, imprVendor: 29039, clicksVendor: 170, acos: 25.3, tacos: 7.6, uds: 222, vendorCogs: 1155, definitivo: true },
+  { dia: 7, seller: 19540, vendor: 1422, adSpend: 1786, adSales: 5440, vendorAdSpend: 156, vendorAdSales: 232, imprSeller: 309633, clicksSeller: 2225, imprVendor: 39712, clicksVendor: 182, acos: 32.8, tacos: 9.3, uds: 199, vendorCogs: 0,    definitivo: true },
+  { dia: 8, seller: 24081, vendor: 3386, adSpend: 1824, adSales: 5253, vendorAdSpend: 187, vendorAdSales: 438, imprSeller: 275708, clicksSeller: 2305, imprVendor: 39679, clicksVendor: 233, acos: 35.3, tacos: 7.3, uds: 257, vendorCogs: 1425, definitivo: true },
+  { dia: 9, seller: 33898, vendor: 3106, adSpend: 1833, adSales: 9244, vendorAdSpend: 181, vendorAdSales: 197, imprSeller: 280639, clicksSeller: 2413, imprVendor: 36082, clicksVendor: 227, acos: 21.3, tacos: 5.4, uds: 339, vendorCogs: 3125, definitivo: true },
+  { dia: 10, seller: 28626, vendor: 11045, adSpend: 1822, adSales: 7806, vendorAdSpend: 225, vendorAdSales: 568, imprSeller: 317405, clicksSeller: 2239, imprVendor: 42365, clicksVendor: 366, acos: 24.4, tacos: 5.2, uds: 373, vendorCogs: 0,    definitivo: true },
+  { dia: 11, seller: 26875, vendor: 14425, adSpend: 1862, adSales: 6433, vendorAdSpend: 263, vendorAdSales: 1194, imprSeller: 318225, clicksSeller: 2317, imprVendor: 69517, clicksVendor: 486, acos: 27.9, tacos: 5.1, uds: 408, vendorCogs: null, definitivo: true },
+  { dia: 12, seller: 24602, vendor: 16002, adSpend: 1813, adSales: 5783, vendorAdSpend: 264, vendorAdSales: 2069, imprSeller: 336404, clicksSeller: 2135, imprVendor: 72371, clicksVendor: 457, acos: 26.5, tacos: 5.1, uds: 415, vendorCogs: null, definitivo: true },
 ];
 const NOV_OBJETIVO_DIARIO = 33333;
 const NOV_DIAS_MES = 30;
@@ -945,10 +944,14 @@ function renderNov() {
     const diffTxt = diff === null ? '—' : (diff >= 0 ? '+' : '') + diff.toLocaleString('es-ES') + ' €';
     const badgeHtml = d.badge ? `<span class="badge-prime">${d.badge}</span>` : '';
     const p = !d.definitivo ? 'td-partial' : '';
+    const cogsVendor = d.vendorCogs !== undefined && d.vendorCogs !== null
+      ? (d.vendorCogs > 0 ? d.vendorCogs.toLocaleString('es-ES') + ' €' : '—')
+      : '(pend.)';
     tr.innerHTML = `
       <td>${d.dia} nov${badgeHtml}</td>
       <td class="${p}">${s !== null ? s.toLocaleString('es-ES') + ' €' : '—'}</td>
       <td class="${p}">${v ? v.toLocaleString('es-ES') + ' €' : '—'}</td>
+      <td class="${p}" style="color:var(--text-sec)">${cogsVendor}</td>
       <td class="${p}" style="font-weight:600">${combined !== null ? combined.toLocaleString('es-ES') + ' €' : '—'}</td>
       <td class="${p}">${d.adSpend !== undefined ? d.adSpend.toLocaleString('es-ES') + ' €' : '—'}</td>
       <td class="${p}">${d.acos !== null && d.acos !== undefined ? d.acos + '%' : '—'}</td>
@@ -1078,5 +1081,3 @@ if (document.fonts) {
 </script>
 </body>
 </html>
-
-</body></html>
