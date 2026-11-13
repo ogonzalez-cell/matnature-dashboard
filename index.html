@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!doctype html>
 <html lang="es">
 <head>
@@ -474,7 +475,7 @@ tr:last-child td { border-bottom:none; }
   </div>
 
   <div class="note-box">
-    <strong>Noviembre 2026 en curso</strong> — Datos actualizados diariamente. Vendor con lag habitual de 24–48h. Días sin confirmar marcados en cursiva.
+    <strong>Noviembre 2026 en curso</strong> — Datos actualizados diariamente. Vendor con lag habitual de 24–48h. Días sin confirmar marcados en cursiva. <strong>COGS Vendor confirmado hasta día 9</strong> (días 10+ pendientes, lag Amazon 2–5 días).
   </div>
 
   <div class="strip" id="novStrip">
@@ -489,6 +490,7 @@ tr:last-child td { border-bottom:none; }
       <div class="kpi-label">Acumulado Nov (Seller + Vendor)</div>
       <div class="kpi-val" id="novKpiAcum">—</div>
       <div class="kpi-sub" id="novKpiAcumSub"></div>
+      <div class="kpi-sub" id="novKpiCogs" style="margin-top:5px;font-size:14px;color:var(--text-sec)"></div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Proyección ritmo actual</div>
@@ -582,19 +584,18 @@ const SEP_SELLER = [
 
 // ── NOVIEMBRE ──
 const NOV_DATA = [
-  // { dia, seller, vendor, adSpend, adSales, acos, badge, definitivo, vendorCogs }
-  { dia: 1, seller: 17373, vendor: 0,    adSpend: 1846, vendorAdSpend: 67,  acos: null, vendorCogs: 0,    definitivo: true },
-  { dia: 2, seller: 26633, vendor: 4397, adSpend: 1836, vendorAdSpend: 64,  acos: null, vendorCogs: 4397, definitivo: true },
-  { dia: 3, seller: 30509, vendor: 4539, adSpend: 1808, adSales: 10410, vendorAdSpend: 59,  vendorAdSales: 97,  imprSeller: 287763, clicksSeller: 2312, imprVendor: 4335,  clicksVendor: 61,  acos: 17.4, tacos: 5.3, uds: 329, vendorCogs: 2352, definitivo: true },
-  { dia: 4, seller: 23634, vendor: 3538, adSpend: 1819, adSales: 4120,  vendorAdSpend: 138, vendorAdSales: 353, imprSeller: 312631, clicksSeller: 2263, imprVendor: 15291, clicksVendor: 159, acos: 44.1, tacos: 7.2, uds: 258, vendorCogs: 2607, definitivo: true },
-  { dia: 5, seller: 26900, vendor: 3500, adSpend: 1764, adSales: 4933, vendorAdSpend: 154, vendorAdSales: 1017, imprSeller: 298327, clicksSeller: 2177, imprVendor: 21980, clicksVendor: 190, acos: 35.8, tacos: 6.3, uds: 277, vendorCogs: 1345, definitivo: true },
-  { dia: 6, seller: 23463, vendor: 1345, adSpend: 1748, adSales: 6911, vendorAdSpend: 141, vendorAdSales: 0, imprSeller: 306174, clicksSeller: 2175, imprVendor: 29039, clicksVendor: 170, acos: 25.3, tacos: 7.6, uds: 222, vendorCogs: 1155, definitivo: true },
-  { dia: 7, seller: 19540, vendor: 1422, adSpend: 1786, adSales: 5440, vendorAdSpend: 156, vendorAdSales: 232, imprSeller: 309633, clicksSeller: 2225, imprVendor: 39712, clicksVendor: 182, acos: 32.8, tacos: 9.3, uds: 199, vendorCogs: 0,    definitivo: true },
-  { dia: 8, seller: 24081, vendor: 3386, adSpend: 1824, adSales: 5253, vendorAdSpend: 187, vendorAdSales: 438, imprSeller: 275708, clicksSeller: 2305, imprVendor: 39679, clicksVendor: 233, acos: 35.3, tacos: 7.3, uds: 257, vendorCogs: 1425, definitivo: true },
-  { dia: 9, seller: 33898, vendor: 3106, adSpend: 1833, adSales: 9244, vendorAdSpend: 181, vendorAdSales: 197, imprSeller: 280639, clicksSeller: 2413, imprVendor: 36082, clicksVendor: 227, acos: 21.3, tacos: 5.4, uds: 339, vendorCogs: 3125, definitivo: true },
-  { dia: 10, seller: 28626, vendor: 11045, adSpend: 1822, adSales: 7806, vendorAdSpend: 225, vendorAdSales: 568, imprSeller: 317405, clicksSeller: 2239, imprVendor: 42365, clicksVendor: 366, acos: 24.4, tacos: 5.2, uds: 373, vendorCogs: 0,    definitivo: true },
-  { dia: 11, seller: 26875, vendor: 14425, adSpend: 1862, adSales: 6433, vendorAdSpend: 263, vendorAdSales: 1194, imprSeller: 318225, clicksSeller: 2317, imprVendor: 69517, clicksVendor: 486, acos: 27.9, tacos: 5.1, uds: 408, vendorCogs: null, definitivo: true },
-  { dia: 12, seller: 24602, vendor: 16002, adSpend: 1813, adSales: 5783, vendorAdSpend: 264, vendorAdSales: 2069, imprSeller: 336404, clicksSeller: 2135, imprVendor: 72371, clicksVendor: 457, acos: 26.5, tacos: 5.1, uds: 415, vendorCogs: null, definitivo: true },
+  { dia: 1,  seller: 17373, vendor: 166,   adSpend: 1846, adSales: 11056, vendorAdSpend: 67,  vendorAdSales: 182,  imprSeller: 286662, clicksSeller: 2317, imprVendor: 7076,  clicksVendor: 64,  acos: 16.7, tacos: 10.9, uds: 187, vendorCogs: 86,   definitivo: true },
+  { dia: 2,  seller: 26580, vendor: 13580, adSpend: 1836, adSales: 12802, vendorAdSpend: 64,  vendorAdSales: 0,    imprSeller: 291501, clicksSeller: 2344, imprVendor: 4390,  clicksVendor: 63,  acos: 14.3, tacos: 4.7,  uds: 280, vendorCogs: 9120, definitivo: true },
+  { dia: 3,  seller: 24202, vendor: 7870,  adSpend: 1802, adSales: 12828, vendorAdSpend: 59,  vendorAdSales: 97,   imprSeller: 287188, clicksSeller: 2298, imprVendor: 4333,  clicksVendor: 61,  acos: 14.0, tacos: 5.8,  uds: 268, vendorCogs: 5128, definitivo: true },
+  { dia: 4,  seller: 19381, vendor: 9227,  adSpend: 1812, adSales: 11989, vendorAdSpend: 138, vendorAdSales: 806,  imprSeller: 288450, clicksSeller: 2245, imprVendor: 14382, clicksVendor: 159, acos: 15.1, tacos: 6.8,  uds: 219, vendorCogs: 6116, definitivo: true },
+  { dia: 5,  seller: 21764, vendor: 3669,  adSpend: 1765, adSales: 9301,  vendorAdSpend: 155, vendorAdSales: 1526, imprSeller: 273848, clicksSeller: 2175, imprVendor: 20250, clicksVendor: 191, acos: 19.0, tacos: 7.6,  uds: 232, vendorCogs: 2551, definitivo: true },
+  { dia: 6,  seller: 19891, vendor: 4102,  adSpend: 1752, adSales: 12040, vendorAdSpend: 141, vendorAdSales: 0,    imprSeller: 277063, clicksSeller: 2179, imprVendor: 25958, clicksVendor: 171, acos: 14.5, tacos: 7.9,  uds: 205, vendorCogs: 2681, definitivo: true },
+  { dia: 7,  seller: 15875, vendor: 0,     adSpend: 1788, adSales: 9607,  vendorAdSpend: 159, vendorAdSales: 664,  imprSeller: 280714, clicksSeller: 2227, imprVendor: 35876, clicksVendor: 187, acos: 18.6, tacos: 12.3, uds: 175, vendorCogs: 0,    definitivo: true },
+  { dia: 8,  seller: 21158, vendor: 4236,  adSpend: 1828, adSales: 9340,  vendorAdSpend: 187, vendorAdSales: 779,  imprSeller: 259319, clicksSeller: 2313, imprVendor: 35738, clicksVendor: 233, acos: 19.6, tacos: 7.9,  uds: 230, vendorCogs: 2953, definitivo: true },
+  { dia: 9,  seller: 29294, vendor: 9507,  adSpend: 1832, adSales: 13285, vendorAdSpend: 184, vendorAdSales: 448,  imprSeller: 263609, clicksSeller: 2411, imprVendor: 32887, clicksVendor: 233, acos: 13.8, tacos: 5.2,  uds: 310, vendorCogs: 6755, definitivo: true },
+  { dia: 10, seller: 25759, vendor: null,  adSpend: 1822, adSales: 10094, vendorAdSpend: 230, vendorAdSales: 1539, imprSeller: 294679, clicksSeller: 2240, imprVendor: 38566, clicksVendor: 380, acos: 18.0, tacos: null, uds: 273, vendorCogs: null, definitivo: true },
+  { dia: 11, seller: 25236, vendor: null,  adSpend: 1860, adSales: 9216,  vendorAdSpend: 263, vendorAdSales: 2318, imprSeller: 298141, clicksSeller: 2313, imprVendor: 63983, clicksVendor: 488, acos: 20.2, tacos: null, uds: 257, vendorCogs: null, definitivo: true },
+  { dia: 12, seller: 24098, vendor: null,  adSpend: 1813, adSales: 5783,  vendorAdSpend: 266, vendorAdSales: 2069, imprSeller: 329898, clicksSeller: 2136, imprVendor: 71683, clicksVendor: 459, acos: 31.4, tacos: null, uds: 246, vendorCogs: null, definitivo: true },
 ];
 const NOV_OBJETIVO_DIARIO = 33333;
 const NOV_DIAS_MES = 30;
@@ -923,6 +924,16 @@ function renderNov() {
   document.getElementById('novKpiAcumSub').textContent = numAll > 0
     ? 'Seller ' + totalSeller.toLocaleString('es-ES') + ' + Vendor ' + totalVendor.toLocaleString('es-ES') + ' €'
     : 'sin datos aún';
+  const totalCogs = allWithData.reduce((a, d) => a + (d.vendorCogs !== null && d.vendorCogs !== undefined ? d.vendorCogs : 0), 0);
+  const lastCogsDay = [...allWithData].reverse().find(d => d.vendorCogs !== null && d.vendorCogs !== undefined);
+  const cogsEl = document.getElementById('novKpiCogs');
+  if (cogsEl) {
+    if (lastCogsDay) {
+      cogsEl.textContent = 'COGS Vendor acum.: ' + totalCogs.toLocaleString('es-ES') + ' € (hasta día ' + lastCogsDay.dia + ')';
+    } else {
+      cogsEl.textContent = 'COGS Vendor: pendiente (lag Amazon 2–5 días)';
+    }
+  }
   document.getElementById('novKpiProj').textContent = numAll > 0 ? proj.toLocaleString('es-ES') + ' €' : '—';
   document.getElementById('novKpiProjSub').textContent = numAll > 0 ? mediaDia.toLocaleString('es-ES') + ' €/día × ' + NOV_DIAS_MES + ' días' : 'pendiente';
 
@@ -946,7 +957,7 @@ function renderNov() {
     const p = !d.definitivo ? 'td-partial' : '';
     const cogsVendor = d.vendorCogs !== undefined && d.vendorCogs !== null
       ? (d.vendorCogs > 0 ? d.vendorCogs.toLocaleString('es-ES') + ' €' : '—')
-      : '(pend.)';
+      : '—';
     tr.innerHTML = `
       <td>${d.dia} nov${badgeHtml}</td>
       <td class="${p}">${s !== null ? s.toLocaleString('es-ES') + ' €' : '—'}</td>
@@ -1081,3 +1092,5 @@ if (document.fonts) {
 </script>
 </body>
 </html>
+
+</body></html>
